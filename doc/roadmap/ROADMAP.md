@@ -20,15 +20,15 @@
 Схема, стек, скелет бота. Юзеров нет.
 
 ### 1 — PNG в Telegram
-Тема → JSON → PNG → media group. Тест 10–20.  
+Тема → JSON → Remotion PNG → media group (путь B). Тест 10–20.  
 Вопрос: нужен ли результат?
 
-### 2 — Mini App
-Правки, история, лимиты. Бета 30–50.  
-Вопрос: сами без помощи?
+### 2 — Mini App / веб-редактор
+Правки, client ZIP (html-to-image, путь A), «в Telegram» → server, история, лимиты. Бета 30–50.  
+Вопрос: сами без помощи? ZIP vs альбом в чат?
 
 ### 3 — MP4 из слайдов
-Animated + музыка. Early pay 50–100.  
+Тот же Remotion worker → `renderMedia`. Early pay 50–100.  
 Вопрос: инструмент или игрушка?
 
 ### 4 — Видео-MVP
