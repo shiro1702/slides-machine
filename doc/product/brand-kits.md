@@ -105,14 +105,18 @@ Upload своих шрифтов — v2–3 (валидация, кирилли�
 
 См. [../business/models.md](../business/models.md).
 
-## План внедрения
+## План внедрения (→ спринты)
 
 | Итерация | Спринты | Scope |
 |----------|---------|-------|
-| MVP | 1–2 | 3 layout + 5 types; 6–8 пресетных тем (или 3 bundle); 3 font pairs в токенах |
-| 2 | 3–4 | picker 2 цвета + авто-токены; font pairs из ~10; `@handle`; charts `progress_bars` / `big_percent` |
-| 3 | 5–6 | несколько тем на юзера; палитра из лого; лого на слайдах; `bar_chart` / `timeline`; лимиты тарифов |
-| Позже | 11+ / Agency | upload шрифтов; палитра из URL; dark/light variant одной темы |
+| MVP | 0–2 | 3 layout-bundle × 5 types; шрифты в токенах |
+| 2 · подготовка | 3 | схема `layout×theme`, 6–8 цветовых пресетов, паттерны types в промптах |
+| 2 · UI | 4 | picker 2 цвета, ~10 font pairs, `@handle`, Soft Pastel/Photo Overlay, quote/steps/…, progress_bars/big_percent |
+| 3 · часть 1 | 5 | multi-theme + лимиты тарифов; types/styles по спросу |
+| 3 · часть 2 | 6 | палитра из лого, лого на слайдах, bar_chart/timeline, анимация charts в MP4 |
+| Позже | 11+ / Agency | upload шрифтов; палитра из URL; dark/light variant |
+
+Детализация: [SPRINTS.md](../sprints/SPRINTS.md).
 
 ## Remotion reel templates (позже)
 

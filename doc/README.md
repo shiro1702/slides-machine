@@ -65,8 +65,12 @@ doc/
 | [dev/DEPLOY.md](./dev/DEPLOY.md) | Vercel/Neon/worker |
 | [dev/ENV_SETUP.md](./dev/ENV_SETUP.md) | Ключи |
 | [dev/RENDER.md](./dev/RENDER.md) | Preview vs server render |
-| [sprints/SPRINTS.md](./sprints/SPRINTS.md) | План 0–12 |
-| [sprints/sprint-2/](./sprints/sprint-2/README.md) | Текущий спринт |
+| [sprints/SPRINTS.md](./sprints/SPRINTS.md) | План 0–12 + карта итераций styles/themes |
+| [sprints/sprint-2/](./sprints/sprint-2/README.md) | Текущий спринт (MVP визуала) |
+| [sprints/sprint-3/](./sprints/sprint-3/README.md) | Варианты + схема layout×theme |
+| [sprints/sprint-4/](./sprints/sprint-4/README.md) | Mini App + итерация 2 |
+| [sprints/sprint-5/](./sprints/sprint-5/README.md) | Multi-theme + лимиты |
+| [sprints/sprint-6/](./sprints/sprint-6/README.md) | MP4 + лого/charts v2 |
 
 ### Продукт и бизнес
 
