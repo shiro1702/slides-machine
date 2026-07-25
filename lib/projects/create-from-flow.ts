@@ -3,6 +3,7 @@ import { getDb, type Db } from "@/lib/db";
 import { jobs, projects, telegramUpdates } from "@/lib/db/schema";
 import type { Project } from "@/lib/schemas";
 import { upsertTelegramUser } from "@/lib/telegram/users";
+import { kickJobWorker } from "@/lib/jobs";
 
 export type FlowProjectMeta = {
   nicheId: string;
@@ -13,6 +14,8 @@ export type FlowProjectMeta = {
   generationRequestId: string;
   errorCode?: string;
   project?: Project;
+  chatId?: number;
+  progressMessageId?: number;
 };
 
 export type CreateDraftParams = {
@@ -78,6 +81,8 @@ export async function markProjectReady(params: {
   project: Project;
   meta: Omit<FlowProjectMeta, "project" | "errorCode">;
   db?: Db;
+  /** Kick async worker after enqueue (default true). */
+  kickWorker?: boolean;
 }) {
   const db = params.db ?? getDb();
 
@@ -122,6 +127,9 @@ export async function markProjectReady(params: {
   }
 
   if (existingJobs[0]) {
+    if (params.kickWorker !== false) {
+      kickJobWorker();
+    }
     return { project: updated, job: existingJobs[0], createdJob: false };
   }
 
@@ -131,8 +139,16 @@ export async function markProjectReady(params: {
       projectId: params.projectId,
       type: "render_carousel",
       status: "queued",
+      result: {
+        chatId: params.meta.chatId,
+        progressMessageId: params.meta.progressMessageId,
+      },
     })
     .returning();
+
+  if (params.kickWorker !== false) {
+    kickJobWorker();
+  }
 
   return { project: updated, job, createdJob: true };
 }

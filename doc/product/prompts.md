@@ -1,6 +1,7 @@
 # AI-промпты
 
-Черновики из brainstorm. Живые промпты — в `packages/ai/prompts/` когда появится код.
+Черновики из brainstorm. Живые промпты — в `packages/ai/prompts/` / `lib/` когда появятся.  
+Паттерны структур: [slide-types.md](./slide-types.md).
 
 ## Карусель из темы
 
@@ -13,15 +14,40 @@
 Ниша: [SMM|эксперт|недвижимость|…]
 Цель поста: [польза|ошибки|чеклист|кейс|продажа]
 Количество слайдов: [N]
-Шаблон: [Expert List|Mistakes|…]
+Шаблон / паттерн: [Expert List|Mistakes|Myth|Case|…]
+Layout style: [clean_minimal|dark_premium|bold_marketing|…]
+Brand theme: [preset id или токены]
 
 Верни ТОЛЬКО валидный JSON по схеме project/carousel
-(slides с layout, headline, body, CTA; без markdown-обёртки).
+(slides с type/layout, headline, body, CTA; без markdown-обёртки).
 Тексты короткие, разговорные, на русском.
-Первый слайд — сильный хук.
+Первый слайд — сильный хук (type: hook).
+Последний — CTA с @handle из темы, если задан.
+Не хардкодь цвета — только контент; тема применяется отдельно.
 ```
 
 Параметры ниши/тональности/цели — Sprint 3.
+
+## Паттерны структур (задавать в system/user)
+
+| Имя | Последовательность types |
+|-----|--------------------------|
+| Ошибки | `hook` → `numbered` × N → `big_number` → `checklist` → `cta` |
+| Инструкция | `hook` → `steps` × N → `quote` → `cta` |
+| Мифы | `hook` → `myth_fact` × N → `text` → `cta` |
+| Кейс | `hook` → `before_after` → `steps` × 3 → `author` → `cta` |
+| Чеклист | `hook` → `checklist` → `summary`/`text` → `cta` |
+
+Carousel `templateId` в meta (`mistakes`, `expert_list`, …) = ярлык паттерна для бота; внутри LLM всё равно генерирует последовательность types/layouts.
+
+## Инфографика (с S3–4)
+
+Если цель «статистика / бюджет / доли» — можно вставить:
+
+- `progress_bars` — 3–5 значений, сумма ≈ 100% если unit `%`
+- `big_percent` — одна ключевая цифра  
+
+Данные выдумай правдоподобно из темы **или** оставь плейсхолдеры для пользователя. Максимум 5 значений. См. [charts.md](./charts.md).
 
 ## Сценарий Reels (позже)
 

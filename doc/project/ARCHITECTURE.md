@@ -30,14 +30,23 @@
 
 ## Слои данных
 
+Три независимые оси визуала/контента (уточнение [styles-themes brainstorm](../brainstorms/25.07.2026-styles-themes-INDEX.md)):
+
+```
+Layout Style × Brand Theme × Slide type
+```
+
 | Слой | Что |
 |------|-----|
-| Theme / Style | цвета, шрифты, радиусы, CTA, стикеры, диаграммы |
-| Carousel Template | Expert List, Mistakes, Checklist… |
-| Slide Layout | cover_center, text_image_right, chart_bar… |
+| Layout Style | характер вёрстки, декор, radius, textCase (Minimal, Bold, …) |
+| Brand Theme | цвета, font pair, лого, @handle (пресеты → кастом) |
+| Carousel Template | Expert List, Mistakes, Checklist… (паттерн последовательности) |
+| Slide type / Layout | hook, numbered, checklist, cta… → cover_center, chart_bars… |
 | Elements | text, image, sticker, chart, shape, logo… |
 | Effects | in/out/loop (в JSON сразу; на MVP PNG игнор) |
 | Timing / Audio | duration, transition, music/voiceover/sfx (рилс) |
+
+Пока в коде Sprint 0–2 `themeId` ещё bundle (layout+цвета+шрифты). Целевая схема: отдельные `layoutId` + theme tokens / `themeId`, без ломки существующих preset id.
 
 Схема должна быть **независима от Remotion** → позже edit.json → DaVinci/Premiere XML.
 
@@ -110,6 +119,7 @@ script.md → edit.json → локальный агент / cloud worker → Rem
 
 - **Каноническая JSON-схема (Zod):** [`lib/schemas`](../../lib/schemas/) — `project`, scenes, elements, format→размеры, timing/animation/audio
 - [../product/slide-engine.md](../product/slide-engine.md)
+- [../product/layout-styles.md](../product/layout-styles.md) · [../product/slide-types.md](../product/slide-types.md) · [../product/brand-kits.md](../product/brand-kits.md)
 - [../dev/DEPLOY.md](../dev/DEPLOY.md)
 - [../dev/RENDER.md](../dev/RENDER.md)
 - [BOT_MESSENGERS.md](./BOT_MESSENGERS.md)
