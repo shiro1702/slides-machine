@@ -1,92 +1,157 @@
 # Мессенджеры и боты
 
-Источник: brainstorm 25.07.2026 (Telegram bot-first).
+Источник: brainstorm 25.07 (TG-first) + [hybrid-render](../brainstorms/25.07.2026-hybrid-render-INDEX.md) (адаптеры, multi-channel).
 
-## Стратегия: Telegram-first
+## Стратегия
 
-MVP = **чат-бот + Mini App** (тот же Next.js-редактор в webview).  
-MAX — адаптер позже, когда TG доказал спрос.
-
-```
-core-api ← messenger-adapter
-             ├─ telegram-adapter  (сейчас)
-             └─ max-adapter       (когда появится спрос)
-```
-
-## Гибридный UX
-
-### Чат (80% сценариев)
+**Telegram-first** для MVP. Архитектура — **мульти-канальная с дня один**: бот = тонкий адаптер, Core = вся логика.  
+WhatsApp / VK / Max — адаптеры позже, когда TG дал traction (не переписывать Core).
 
 ```
-/new → тема → стиль (кнопки) → ⏳ → media group PNG
-[✏️ Редактировать] [🎬 Сделать рилс] [🔄 Другой вариант]
+TG Adapter ──┐
+WA Adapter ──┼──► Core Engine ──► Neon · Blob · Remotion · Web editor
+VK / Max ────┘
 ```
 
-Карусель в TG = нативный **media group** — совпадает с продуктом.
+Тест: «могу добавить мессенджер, не трогая Core?» → должно быть «да».
 
-### Mini App
+## Адаптер умеет ровно две вещи
 
-Кнопка «Редактировать» → веб-редактор с проектом → экспорт → результат сообщением в чат.
+1. **Inbound:** update канала → `InboundEvent`  
+2. **Outbound:** ответ Core → API канала  
 
-Inline `@bot` в любом чате — низкий приоритет.
+Никакой бизнес-логики (AI, тарифы, state machine) в адаптере.
 
-### Первый экран /start
+### Универсальные типы (целевые)
 
-Коротко + примеры тем + кнопки: `[Сделать карусель] [Примеры] [Как это работает]`.  
-Весь трафик MVP → сразу в бот, не на лендинг.
+```ts
+type InboundEvent = {
+  channel: "telegram" | "whatsapp" | "vk" | "max";
+  channelUserId: string;
+  chatId: string;
+  type: "text" | "photo" | "voice" | "callback" | "command";
+  text?: string;
+  fileRef?: string;   // только до download; в Core уже наш Blob URL
+  payload?: string;
+};
 
-## Почему TG для RU
+type OutboundMessage = {
+  type: "text" | "photos" | "video" | "document";
+  text?: string;
+  mediaUrls?: string[];
+  buttons?: { id: string; label: string }[];
+  link?: { url: string; label: string };
+};
+```
 
-| Боль веб-SaaS | В Telegram |
-|---------------|------------|
-| Регистрация | initData = мгновенный юзер |
-| Дорого привести на сайт | deep link / ref |
-| Email open ~15% | push бота 60–80%+ |
-| Онбординг | диалог = онбординг |
+### Capabilities
 
-Ретеншн: бот может писать «Понедельник — 3 темы под нишу?» — оружие против churn.
+Core выражает **намерение**, адаптер — UI:
 
-## Лимиты Bot API
+```ts
+{ intent: "choose", prompt: "Выберите стиль", options: [{ id, label }] }
+```
 
-| Операция | Лимит |
-|----------|--------|
-| Скачать файл юзера | 20 МБ |
-| Отправить юзеру | 50 МБ |
-| Self-hosted Bot API | до 2 ГБ |
+| | Telegram | WhatsApp | VK | Max |
+|--|----------|----------|-----|-----|
+| Inline-кнопки | ✓ богатые | ~ до 3 | ✓ | ✓ |
+| Альбом фото | ✓ до 10 | по одному | ✓ | ✓ |
+| Mini App | ✓ | ✗ | ✓ Apps | ~ |
+| Markdown | ✓ | урезан | ✗ | ~ |
+| Signed link в редактор | ✓ | ✓ | ✓ | ✓ |
 
-**Решения:** видео-upload через Mini App → S3 напрямую; длинные MP4 — ссылка или self-hosted Bot API; PNG — без проблем.
+TG: media group. WA: цикл одиночных photos. Это решает **адаптер**.
 
-Превью в Mini App: Remotion Player на **proxy 720p**; в чате можно слать черновик 480p как видео-сообщение.
+## Identity
+
+```
+users (id, plan, …)                    -- продукт
+user_identities (user_id, channel, channel_user_id)  -- UNIQUE(channel, channel_user_id)
+```
+
+Проекты, темы, подписка → `users.id`.  
+Сейчас в схеме: `users.telegram_id` — ок для TG-only; миграция на identities **до** второго канала.  
+Merge аккаунтов TG↔WA — не MVP.
+
+## Dialog state machine (Core)
+
+```
+dialog_sessions (user_id, channel, state, context jsonb, updated_at)
+(state, InboundEvent) → (newState, OutboundMessage[])
+```
+
+Один сценарий «тема → стиль → generate» для всех каналов. Юнит-тесты без мессенджеров.
+
+## Файлы
+
+Адаптер скачивает из канала → **сразу Blob Store** → в Core только наш URL.  
+Core никогда не хранит `file_id` Telegram/WA.
+
+## Доставка результата рендера
+
+```
+Worker done → Core (projectId, urls[])
+  → смотрит channel сессии/job
+  → OutboundMessage{ type: "photos", mediaUrls }
+  → нужный адаптер
+```
+
+## Гибридный UX (Telegram)
+
+### Чат (~ быстрый путь)
+
+```
+/new → тема → стиль → ⏳ → media group PNG   (путь B: Remotion)
+[✏️ Редактировать] [🎬 Рилс] [🔄 Вариант]
+```
+
+### Веб / Mini App
+
+Signed link или Mini App → редактор → ZIP (путь A) или «Отправить в чат» (путь B).  
+См. [editor-flow.md](../product/editor-flow.md).
+
+### /start
+
+Коротко + примеры + `[Сделать карусель] [Примеры] [Как это работает]`.  
+Трафик MVP → бот, не лендинг.
 
 ## Auth
 
-Валидация `initData` → user по `telegram_id`.  
-Связка с вебом: `?start=link_<token>`. Одна БД, два входа.
+| Способ | Канал |
+|--------|--------|
+| `initData` Mini App | Telegram |
+| JWT `/e/{projectId}?t=…` | все каналы + десктоп |
+| `?start=link_<token>` | привязка веб↔user |
+
+Не строить веб только на Telegram Login Widget.
 
 ## Платежи в Telegram
 
-Цифровые товары в ботах/Mini Apps — часто через **Telegram Stars**.
+Stars внутри TG + ЮKassa на сайте — витрины не смешивать. Учесть в экономике.
 
-| Вариант | Плюс | Минус |
-|---------|------|--------|
-| A. Stars в боте | нативно | комиссия, TON, курсы |
-| B. ЮKassa на сайте | рубли, чеки, ИП | разрыв флоу; правила TG |
+## WhatsApp / VK / Max — когда
 
-**Путь:** Stars внутри TG + полный биллинг на сайте, витрины не смешивать. Учесть в экономике заранее.
+| Канал | Зачем помнить | Когда кодить адаптер |
+|-------|---------------|----------------------|
+| WhatsApp | МБ, риелторы, салоны; ~$0.05–0.08/сессия; 24h window; верификация Meta недели | после traction TG |
+| VK | РФ-бизнес, Mini Apps | по спросу |
+| Max | гос/корп — следить | адаптер ~неделя, если архитектура чистая |
 
-## MAX
+**MVP делает:** `user_identities` (или план миграции), интерфейсы Core, только `bot-telegram`.  
+**MVP не делает:** WA/VK код, merge аккаунтов, конструктор диалогов.
 
-Экосистема моложе; аудитория SMM/экспертов слабее.  
-На старте только Telegram. Адаптер — 1–2 недели, когда появится смысл (или B2B/гос).
+## Лимиты Bot API (Telegram)
 
-## Bot-first vs полный веб
+| Операция | Лимит |
+|----------|--------|
+| Скачать файл | 20 МБ |
+| Отправить | 50 МБ |
+| Self-hosted Bot API | до 2 ГБ |
 
-**Да для MVP:** тонкий MVP за 3–4 недели, дистрибуция встроена, метрики воронки в чате.  
-**Оговорка:** редактор сразу как веб (Mini App + домен).  
-B2B/агентства с approve-флоу — этап 2+, нужен полноценный веб.
+Видео-upload → Mini App → storage напрямую; длинные MP4 — ссылка.
 
 ## Связанные
 
 - [ARCHITECTURE.md](./ARCHITECTURE.md)  
-- [../marketing/telegram/README.md](../marketing/telegram/README.md)  
-- [../dev/ENV_SETUP.md](../dev/ENV_SETUP.md)
+- [RENDER.md](../dev/RENDER.md)  
+- [../marketing/telegram/README.md](../marketing/telegram/README.md)

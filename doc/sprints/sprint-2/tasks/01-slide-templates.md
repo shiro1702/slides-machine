@@ -8,8 +8,10 @@
 
 - 3 визуальных стиля из meta
 - Минимум 3 структурных templates: Mistakes, Expert List, Checklist
-- Layouts, реально используемые этими templates: cover, text, checklist, CTA и один image-capable layout
-- Общие typography, spacing и safe-area tokens для 1080×1350
+- Layouts: cover, text, checklist, CTA и один image-capable layout
+- Typography, spacing, safe-area для 1080×1350
+- **Чистый React:** нет `next/image`, `next/font`, data-fetch внутри слайда — одни props (theme + content)
+- Шрифты из файлов пакета/репо — одинаково для Remotion и будущего html-to-image
 
 ## Done when
 
@@ -17,10 +19,10 @@
 - [ ] Один fixture каждого template визуально проходит cover/content/CTA sequence
 - [ ] Длинный заголовок и максимальный body не выходят за safe area
 - [ ] Кириллица и выбранные шрифты одинаково работают локально и на сервере
-- [ ] Layout ids совпадают со схемой; неизвестный id завершается явной ошибкой
-- [ ] Компоненты пригодны для будущего Remotion MP4 без второй дизайн-системы
+- [ ] Layout ids совпадают со схемой; неизвестный id → явная ошибка
+- [ ] Пригодны для Remotion `renderStill` **и** будущего client export / `renderMedia` без второй дизайн-системы
 
 ## Связанные документы
 
 - [Slide rendering engine](../../../product/slide-engine.md)
-- [Рендер](../../../dev/RENDER.md)
+- [Рендер (гибрид)](../../../dev/RENDER.md)

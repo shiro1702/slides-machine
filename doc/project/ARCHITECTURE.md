@@ -1,115 +1,130 @@
 # Архитектура
 
-> Вынесено из brainstorm 25.07.2026. Ядро: **slide rendering engine** на едином JSON.
+> Ядро: **slide rendering engine** на едином JSON.  
+> Уточнения: [hybrid-render](../brainstorms/25.07.2026-hybrid-render-INDEX.md) (клиент+Remotion, мульти-каналы).
 
 ## Принцип
 
 ```
 Один project JSON
-  → PNG-карусель
-  → animated MP4
+  → PNG (клиент html-to-image ИЛИ Remotion renderStill)
+  → animated MP4 (Remotion renderMedia)
   → рилс / сторис / реклама
 ```
 
-Рилс = карусель, развёрнутая во времени (слайд → сцена, свайп → переход).
-
-Клиенты — тонкие; тяжёлое на сервере:
+Рилс = карусель во времени. **Один пакет слайдов** для web / client export / Remotion.
 
 ```
-                    ┌──────────────────────────────┐
-                    │  CORE                        │
-                    │  API · AI · schema · queue   │
-                    │  Remotion · storage          │
-                    └──────┬───────┬───────┬───────┘
-                           │       │       │
-                    ┌──────┴──┐ ┌──┴────┐ ┌┴────────┐
-                    │ Web-app │ │ TG-бот │ │ MAX     │
-                    │ (Next)  │ │+MiniApp│ │ (позже) │
-                    └─────────┘ └────────┘ └─────────┘
+        ┌────────────┐ ┌────────────┐ ┌────────────┐
+        │ TG Adapter │ │ WA (позже) │ │ VK / Max   │  ← тонкие
+        └──────┬─────┘ └──────┬─────┘ └──────┬─────┘
+               └──────────────┼──────────────┘
+                              ▼
+               ┌──────────────────────────────┐
+               │  CORE                        │
+               │  dialogs · AI · projects     │
+               │  themes · tariffs · jobs     │
+               └──────┬───────┬───────┬───────┘
+                      │       │       │
+               ┌──────┴──┐ ┌──┴────┐ ┌┴────────┐
+               │ Web     │ │Remotion│ │ Neon    │
+               │ editor  │ │ worker │ │ Blob    │
+               └─────────┘ └────────┘ └─────────┘
 ```
 
-## Слои данных
+Тест чистоты кода: «знает про Telegram?» → только adapter; «про слайды/тарифы?» → core; «и то и то?» → разрезать.
+
+## Слои данных (контент)
 
 | Слой | Что |
 |------|-----|
-| Theme / Style | цвета, шрифты, радиусы, CTA, стикеры, диаграммы |
+| Theme / Style | цвета, шрифты, радиусы, CTA… |
 | Carousel Template | Expert List, Mistakes, Checklist… |
-| Slide Layout | cover_center, text_image_right, chart_bar… |
-| Elements | text, image, sticker, chart, shape, logo… |
-| Effects | in/out/loop (в JSON сразу; на MVP PNG игнор) |
-| Timing / Audio | duration, transition, music/voiceover/sfx (рилс) |
+| Slide Layout / type | cover_center, checklist, chart_bars… |
+| Elements | text, image, sticker, chart, logo… |
+| Effects | in/out/loop (PNG игнор; MP4 читает) |
+| Timing / Audio | duration, transition, music… (рилс) |
 
-Схема должна быть **независима от Remotion** → позже edit.json → DaVinci/Premiere XML.
+Схема **независима от Remotion** → позже edit.json / XML.
 
 ## Сущности БД (минимум)
 
 | Entity | Поля (кратко) |
 |--------|----------------|
-| User | telegram_id / email, plan, createdAt |
-| Project | userId, type: carousel \| video_carousel \| reel, title, status |
+| **User** | uuid, plan, createdAt — **канало-независимый** |
+| **UserIdentity** | userId, channel (`telegram`\|`whatsapp`\|…), channelUserId · UNIQUE(channel, channel_user_id) |
+| Project | userId, type, title, status, JSON |
 | BrandKit | userId, colors, fonts, logoUrl (позже) |
-| Template | meta шаблонов |
-| Scene / slides JSON | внутри project или отдельная таблица |
-| Asset | url, type, ffprobe meta, proxyUrl, posterUrl |
-| Export | type png_zip \| mp4, url |
-| RenderJob | status, error, attempts |
+| Template | meta |
+| Asset | url, type, ffprobe, proxy, poster |
+| Export | type client_zip \| png_album \| mp4, url |
+| RenderJob | status, result_urls[], attempts, error |
 | ProjectVersion | варианты генерации |
+| DialogSession | userId, channel, state, context jsonb |
 
-## Монорепо (целевая структура)
+Сейчас в коде Sprint 0: `users.telegram_id` напрямую. **Миграция к `user_identities`** — заложить до второго канала (желательно Sprint 3–4), иначе болезненно. Слияние аккаунтов между каналами — не MVP.
+
+## Монорепо (целевая)
 
 ```
 apps/
-  web/          # Next.js — кабинет, Mini App, API, webhook
-  worker/       # Remotion, FFmpeg, transcribe
+  web/              # Next.js: редактор, API, Mini App host
+  remotion/         # compositions, renderStill/Media entry
+  bot-telegram/     # тонкий адаптер (можно пока routes в web)
+  bot-whatsapp/     # позже
+  worker/           # poll jobs → Remotion → Blob → notify Core
 packages/
-  schemas/      # Zod: project, carousel, reel, brand
-  templates/    # React slide + reel compositions
-  ai/           # prompts
-  brand/        # default themes
+  slides/           # 🔥 чистый React: компоненты + tokens + renderSlide
+  core/             # state machine, Inbound/Outbound, проекты, тарифы
+  schemas/          # Zod
+  db/               # Drizzle schema + migrations
+  ai/               # prompts
 ```
 
-На Sprint 0 достаточно одного Next.js app; packages выделить, когда появятся worker и повторное использование.
+На Sprint 0–2 допустим один Next.js app + `remotion/` + `lib/`; вынос `packages/slides` и `packages/core` — дисциплина границ важнее папок. Компоненты слайдов уже сейчас без `next/image` / fetch.
 
 ## Пайплайны
 
-### Тема → карусель
+### Тема → JSON (все каналы)
 
 ```
-тема → LLM → carousel.json → Zod → render PNG → Blob → TG media group
+InboundEvent → Core dialog → LLM → Zod project JSON → Neon
 ```
 
-### Карусель → рилс (без user video)
+### Экспорт A — клиент
 
 ```
-тот же JSON + timing/animation → Remotion worker → MP4 → TG
+Web editor → html-to-image → ZIP → событие exported
 ```
 
-### Видео на слайдах (позже)
+### Экспорт B — сервер → мессенджер
 
 ```
-upload → ffprobe → H.264 CFR → proxy 720p → poster → S3
-scene.background = video + trim + duration auto
+job queued → Remotion renderStill × N → Blob
+  → Core OutboundMessage{photos} → adapter → album
 ```
 
-### Talking-head Reels (ещё позже)
+### Карусель → рилс
 
 ```
-script.md → edit.json → локальный агент / cloud worker → Remotion
+тот же JSON + timing → Remotion renderMedia → MP4 → adapter
 ```
 
-Не блокирует MVP каруселей.
+### Видео на слайдах / talking-head
+
+См. [video-ingest](../product/video-ingest.md), [reels-automation](../product/reels-automation.md) — не блокируют PNG MVP.
 
 ## Что не делать в ядре
 
-- Полноценный CapCut-таймлайн
-- Client-side MP4 как основной путь (см. [../dev/RENDER.md](../dev/RENDER.md))
-- MCP как центр SaaS (обычный REST/API; MCP — опция для power users)
-- Nuxt вместо Next — Remotion только React (см. PROJECT.md)
+- Логику тарифов/AI внутри Telegram handlers  
+- Второй серверный движок вёрстки (Playwright «на время»)  
+- Client-side MP4 как основной путь  
+- MCP как центр SaaS  
+- Nuxt вместо Next  
 
 ## Связанные документы
 
-- **Каноническая JSON-схема (Zod):** [`lib/schemas`](../../lib/schemas/) — `project`, scenes, elements, format→размеры, timing/animation/audio
-- [../product/slide-engine.md](../product/slide-engine.md)
-- [../dev/DEPLOY.md](../dev/DEPLOY.md)
-- [../dev/RENDER.md](../dev/RENDER.md)
-- [BOT_MESSENGERS.md](./BOT_MESSENGERS.md)
+- Zod: [`lib/schemas`](../../lib/schemas/)  
+- [RENDER.md](../dev/RENDER.md) · [editor-flow.md](../product/editor-flow.md)  
+- [BOT_MESSENGERS.md](./BOT_MESSENGERS.md) · [DEPLOY.md](../dev/DEPLOY.md)  
+- [slide-engine.md](../product/slide-engine.md)
