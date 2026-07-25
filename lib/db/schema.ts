@@ -23,6 +23,17 @@ export const projectStatusEnum = pgEnum("project_status", [...PROJECT_STATUSES])
 export const jobTypeEnum = pgEnum("job_type", [...JOB_TYPES]);
 export const jobStatusEnum = pgEnum("job_status", [...JOB_STATUSES]);
 
+export type BotFlowData = {
+  nicheId?: string;
+  topic?: string;
+  styleId?: string;
+  templateId?: string;
+  projectId?: string;
+  correlationId?: string;
+  generationRequestId?: string;
+  errorCode?: string;
+};
+
 export const users = pgTable(
   "users",
   {
@@ -88,6 +99,31 @@ export const jobs = pgTable(
   ],
 );
 
+/** Telegram conversation state keyed by telegram_id */
+export const botFlows = pgTable(
+  "bot_flows",
+  {
+    telegramId: text("telegram_id").primaryKey(),
+    step: text("step").notNull().default("idle"),
+    data: jsonb("data").$type<BotFlowData>().notNull().default({}),
+    updatedAt: timestamp("updated_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+  },
+  (table) => [index("bot_flows_updated_at_idx").on(table.updatedAt)],
+);
+
+/** Idempotency for Telegram webhook updates */
+export const telegramUpdates = pgTable("telegram_updates", {
+  updateId: text("update_id").primaryKey(),
+  telegramId: text("telegram_id"),
+  processedAt: timestamp("processed_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
+});
+
 export type User = typeof users.$inferSelect;
 export type ProjectRow = typeof projects.$inferSelect;
 export type JobRow = typeof jobs.$inferSelect;
+export type BotFlowRow = typeof botFlows.$inferSelect;
+export type TelegramUpdateRow = typeof telegramUpdates.$inferSelect;

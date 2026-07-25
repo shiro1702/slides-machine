@@ -1,6 +1,6 @@
 # Sprint 1 — бот: тема → структура JSON
 
-**Статус:** запланирован · **Тест:** внутренний, основатель + 2–3 SMM
+**Статус:** код готов · live-тест после env · **Тест:** внутренний, основатель + 2–3 SMM
 
 ## Цель
 
@@ -11,22 +11,22 @@
 ## Зависимости
 
 - Sprint 0 завершён: Zod-схема, meta, Neon и Telegram webhook доступны.
-- Выбран один LLM provider для MVP; provider abstraction не должна блокировать первый flow.
+- LLM: Groq (`GROQ_API_KEY`) или `LLM_MODE=fixture` без ключа.
 
 ## Чеклист
 
-- [ ] F1.1 — flow `/start`/`/new` → ниша → тема → стиль ([task 01](./tasks/01-telegram-flow.md))
-- [ ] F1.2 — LLM возвращает structured carousel JSON, прошедший Zod ([task 02](./tasks/02-llm-json.md))
-- [ ] User и draft project сохраняются в Neon; создаётся job на следующий этап ([task 03](./tasks/03-project-persistence.md))
-- [ ] Ошибки, latency и шаги flow наблюдаемы без утечки пользовательского текста/секретов ([task 04](./tasks/04-errors-telemetry.md))
+- [x] F1.1 — flow `/start`/`/new` → ниша → тема → стиль ([task 01](./tasks/01-telegram-flow.md))
+- [x] F1.2 — LLM возвращает structured carousel JSON, прошедший Zod ([task 02](./tasks/02-llm-json.md))
+- [x] User и draft project сохраняются в Neon; создаётся job на следующий этап ([task 03](./tasks/03-project-persistence.md))
+- [x] Ошибки, latency и шаги flow наблюдаемы без утечки пользовательского текста/секретов ([task 04](./tasks/04-errors-telemetry.md))
 
 ## Критерии выхода
 
-- [ ] Новый пользователь проходит flow без ручной правки состояния
-- [ ] Для каждой из 3 ниш получен минимум один валидный fixture-like project JSON
-- [ ] Проект связан с Telegram user и повторно читается из Neon
-- [ ] Невалидный ответ LLM автоматически исправляется ограниченное число раз или завершается понятной ошибкой
-- [ ] Внутренний тест с 2–3 SMM выявил блокеры до PNG-render
+- [x] Новый пользователь проходит flow без ручной правки состояния *(код + unit/fixture; live TG — после env)*
+- [x] Для каждой из 3 ниш получен минимум один валидный fixture-like project JSON (`npm run generate:smoke`)
+- [ ] Проект связан с Telegram user и повторно читается из Neon *(нужен `DATABASE_URL` + `npm run db:flow-smoke`)*
+- [x] Невалидный ответ LLM автоматически исправляется ограниченное число раз или завершается понятной ошибкой
+- [ ] Внутренний тест с 2–3 SMM выявил блокеры до PNG-render *(нужны секреты + deploy)*
 
 ## Метрики
 
@@ -39,6 +39,15 @@
 ## Не входит
 
 PNG-render, media group, ZIP, Mini App, платежи и сложный conversational AI.
+
+## Live env (ещё нужно)
+
+| Секрет | Зачем |
+|--------|--------|
+| `DATABASE_URL` | flow state, project, job |
+| `TELEGRAM_BOT_TOKEN` + `TELEGRAM_WEBHOOK_SECRET` | бот |
+| Публичный URL / tunnel | webhook |
+| `GROQ_API_KEY` | реальная LLM (иначе fixture) |
 
 ## Ретро
 

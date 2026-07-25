@@ -1,6 +1,6 @@
 # Спринты
 
-**1 спринт ≈ 1 неделя** (соло: 1–2 нед). Текущий: **Sprint 0**.  
+**1 спринт ≈ 1 неделя** (соло: 1–2 нед). Текущий: **Sprint 1**.  
 Продуктовые этапы: [ROADMAP.md](../roadmap/ROADMAP.md) · Фичи и статусы: [FEATURES.md](../project/FEATURES.md).
 
 Sprint 0–3 детализированы как `sprint-N/README.md` + `tasks/`. Sprint 4–12 пока остаются укрупнённым планом и уточняются после прохождения продуктовых gates.
@@ -13,7 +13,7 @@ Sprint 0–3 детализированы как `sprint-N/README.md` + `tasks/`
 
 **Юзеров не зовём.** → [план и критерии выхода](./sprint-0/README.md) · [задачи](./sprint-0/tasks/)
 
-## Sprint 1 — бот: тема → структура JSON
+## Sprint 1 — бот: тема → структура JSON *(код готов · live после env)*
 
 **Этап 1 · F1.1–F1.2, основа F1.7/F1.8.** Flow `/start`/`/new` → ниша → тема → стиль · LLM → Zod · project + queued job · errors/telemetry.
 

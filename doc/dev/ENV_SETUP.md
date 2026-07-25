@@ -11,12 +11,15 @@
 | `TELEGRAM_BOT_TOKEN` | BotFather | Бот |
 | `TELEGRAM_WEBHOOK_SECRET` | сгенерировать | Verify webhook |
 
-## Sprint 1+
+## Sprint 1
 
-| | |
-|--|--|
-| `GROQ_API_KEY` / `OPENROUTER_API_KEY` / `DEEPSEEK_API_KEY` | structured JSON |
-| Оплата API из РФ | зарубежная карта / посредник / RU-модели |
+| Переменная | Зачем |
+|------------|--------|
+| `GROQ_API_KEY` | LLM → carousel JSON (Vercel AI SDK + Groq) |
+| `LLM_MODE` | `fixture` \| `groq` — без ключа по умолчанию `fixture` |
+| `GROQ_MODEL` | опц., default `llama-3.3-70b-versatile` |
+
+Оплата API из РФ: зарубежная карта / посредник / RU-модели (позже).
 
 ## Позже
 
@@ -25,7 +28,10 @@
 ## Локально
 
 ```bash
-cp .env.example .env.local   # когда появится
+cp .env.example .env.local
+npm run db:migrate          # users/projects/jobs + bot_flows
+npm run generate:smoke      # fixture JSON для 3 ниш
+npm run test
 # tunnel → webhook
 ```
 
@@ -33,7 +39,9 @@ cp .env.example .env.local   # когда появится
 
 - [x] Neon schema + migration в репо (`drizzle/`)
 - [x] Blob smoke API
-- [x] Bot + webhook handler
+- [x] Bot + webhook handler (`/start` `/new` flow)
+- [x] LLM fixture mode + Groq path
 - [ ] Preview/Production env (заполнить секреты на Vercel)
+- [ ] Live Telegram SMM-тест после env
 
 См. [DEPLOY.md](./DEPLOY.md).
