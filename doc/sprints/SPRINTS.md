@@ -1,72 +1,105 @@
 # Спринты
 
-**1 спринт ≈ 1 неделя** (соло: 1–2 нед). Текущий: **Sprint 1**.
-Продуктовые этапы: [ROADMAP.md](../roadmap/ROADMAP.md) · Фичи и статусы: [FEATURES.md](../project/FEATURES.md).
+**1 спринт ≈ 1 неделя** (соло: 1–2 нед). Текущий: **Sprint 1** (код готов) → далее **Sprint 2**.
+Продукт: [ROADMAP.md](../roadmap/ROADMAP.md) · Фичи: [FEATURES.md](../project/FEATURES.md).
+Рендер/каналы: [hybrid-render brainstorm](../brainstorms/25.07.2026-hybrid-render-INDEX.md) · [RENDER.md](../dev/RENDER.md).
 
-Sprint 0–3 детализированы как `sprint-N/README.md` + `tasks/`. Sprint 4–12 пока остаются укрупнённым планом и уточняются после прохождения продуктовых gates.
+Sprint 0–3 детализированы (`sprint-N/`). Sprint 4+ — план + уточнения ниже.
+
+---
+
+## Карта гибридного рендера → спринты
+
+| Путь | Что | Спринт |
+|------|-----|--------|
+| Shared slides | чистый React, Remotion-compatible | **2** (дисциплина с task 01) |
+| **B** server | Remotion `renderStill` → Blob → TG album | **2** |
+| ZIP из Blob PNG | скачать готовые серверные PNG | **3** |
+| Редактор + auth | `/e/{id}` · Mini App · signed JWT | **4** |
+| **A** client | html-to-image → ZIP (± watermark позже) | **4** |
+| Фото в вебе | Blob client upload | **4** |
+| Free/Pro split | watermark / server priority | **5 / 11** |
+| **C** reels | Remotion `renderMedia` | **6** |
+| `user_identities` | миграция с `telegram_id` | **3–4** (схема), адаптеры WA/VK — **после traction** |
+
+Черновик «S1=editor, S2=Remotion» из брейншторма **смаплен** на нашу нумерацию: JSON уже в S1; server album = наш S2; client ZIP = наш S4.
 
 ---
 
 ## Sprint 0 — архитектура и скелет *(код готов · deploy после env)*
 
-**Этап 0 · F0.1–F0.7.** JSON-схема и форматы · meta ниш/шаблонов/стилей · Next.js/Remotion stub · Neon users/projects/jobs · Blob smoke API · Telegram `/start` handler.
+JSON-схема · meta · Next/Remotion stub · Neon users/projects/jobs · Blob · TG `/start`.
 
-**Юзеров не зовём.** → [план и критерии выхода](./sprint-0/README.md) · [задачи](./sprint-0/tasks/)
+→ [план](./sprint-0/README.md) · [задачи](./sprint-0/tasks/)
 
 ## Sprint 1 — бот: тема → структура JSON *(код готов · live после env)*
 
-**Этап 1 · F1.1–F1.2, основа F1.7/F1.8.** Flow `/start`/`/new` → ниша → тема → стиль · LLM → Zod · project + queued job · errors/telemetry.
+Flow ниша → тема → стиль · LLM → Zod · queued job.
 
-**Тест:** внутренний, основатель + 2–3 SMM. → [план и критерии выхода](./sprint-1/README.md) · [задачи](./sprint-1/tasks/)
+→ [план](./sprint-1/README.md) · [задачи](./sprint-1/tasks/)
 
-## Sprint 2 — PNG + media group
+## Sprint 2 — Remotion PNG + media group *(путь B)*
 
-**Этап 1 · F1.3, F1.4, F1.8 и измерение F1.7.** Templates/layouts → server PNG render → queue → Blob → Telegram album.
+**Этап 1 · F1.3, F1.4, F1.8 · F1.7.**
 
-**Закрытый тест №1:** 10–20 SMM, экспертов и риелторов. Метрика: time to first usable carousel **≤ 2–3 мин**.
+- Layouts как **чистый React** (без `next/image` / fetch) — пригодны и для html-to-image позже
+- Server: **Remotion `renderStill`** (Strategy B), не Playwright
+- Queue → Blob → Telegram `sendMediaGroup`
+- Закрытый тест №1: 10–20 чел, usable ≤ 2–3 мин
 
-Gate: **нужен ли результат?** Понятен ли бот, можно ли публиковать, что переписывают, хотят ли ещё?
+Gate: нужен ли результат?
 
-→ [план и критерии выхода](./sprint-2/README.md) · [задачи](./sprint-2/tasks/)
+→ [план](./sprint-2/README.md) · [задачи](./sprint-2/tasks/)
 
-## Sprint 3 — варианты, экспорт и качество
+## Sprint 3 — варианты, ZIP, подготовка multi-channel
 
-**Этап 1 · F1.5–F1.7.** `[Другой вариант] [Измени текст] [Другой стиль] [ZIP]` · immutable versions · prompt quality · воронка.
+**F1.5–F1.7.**
 
-**Продолжение теста №1:** 3–5 проектов на человека; решение по gate перед Sprint 4. Полный «Редактировать» — в Mini App Sprint 4.
+- Кнопки вариант / текст / стиль · versions · ZIP из **уже отрендеренных** PNG
+- Промпты + воронка
+- **Схема:** план/миграция `users` → `user_identities` (TG как первый channel); статусы проекта `draft|generated|…`
+- Ссылка «Редактировать» может вести в waitlist **или** signed stub — полный editor в S4
 
-→ [план и критерии выхода](./sprint-3/README.md) · [задачи](./sprint-3/tasks/)
+→ [план](./sprint-3/README.md) · [задачи](./sprint-3/tasks/)
 
-## Sprint 4 — Mini App v1
+## Sprint 4 — Mini App / веб-редактор + путь A
 
-Текст, порядок, add/delete slide, стиль, re-export. Preview HTML ок.  
-**Тест №2: 30–50**, 7 дней, ≥3 карусели.  
+Текст, порядок, add/delete, стиль, re-export.
 
-Цели: activation 40–60% до экспорта; 20–30% вторая карусель; 10–15% 3+.
+**Гибрид (из брейншторма):**
+
+- Preview на shared slides
+- **Путь A:** html-to-image + JSZip (шрифты, CORS, iOS-тесты)
+- Кнопка «Отправить в Telegram» → путь B (существующий worker)
+- Upload фото → Blob client upload
+- Auth: Mini App `initData` + signed link `/e/{id}?t=`
+
+**Тест №2: 30–50**, 7 дней.
+Вопрос: сами без помощи? Хватает ZIP или нужен альбом в чат?
+
+→ детали в [editor-flow.md](../product/editor-flow.md); tasks завести при старте спринта.
 
 ## Sprint 5 — история, лимиты, админка
 
-Проекты в Mini App · free limits · ref links · admin (Pro, jobs, ban).
+Проекты · free limits · ref · admin.
+Watermark на client ZIP (Free); Pro — server deliver без watermark / приоритет очереди.
 
-## Sprint 6 — MP4 из слайдов (без user video)
+## Sprint 6 — MP4 (путь C)
 
-1080×1920 · duration 2.5–4с · fade/slide/zoom · одна музыка · кнопка «Сделать рилс».  
-**Тест №3: 50–100** + реальные деньги (500–990 ₽/мес early или пакет 199 ₽).
+`renderMedia` 9:16 · fade/slide/zoom · музыка · «Сделать рилс».
+Тот же worker/composition, что PNG.
+
+**Тест №3: 50–100** + early pay.
 
 ## Sprint 7 — video ingest
 
-Presigned upload · ffprobe · H.264 CFR · proxy · poster · лимиты.  
-Техтест 5–10 чел (iPhone/Android).
-
 ## Sprint 8 — video на слайдах, trim, duration auto
 
-## Sprint 9 — transitions + animation presets (темы)
+## Sprint 9 — transitions + animation presets
 
-## Sprint 10 — audio tracks v1 (music/voiceover/sfx + ducking)
+## Sprint 10 — audio tracks v1
 
-→ полноценный видео-MVP, 100–300.
-
-## Sprint 11 — платежи, тарифы, watermark
+## Sprint 11 — платежи, тарифы, watermark (закрепить Free A / Pro B)
 
 ## Sprint 12 — стабильность, мониторинг, публичный MVP
 
@@ -76,11 +109,11 @@ Presigned upload · ffprobe · H.264 CFR · proxy · poster · лимиты.
 
 | После | N | Вопрос |
 |-------|---|--------|
-| S2 | 10–20 | Нужен результат? |
-| S4 | 30–50 | Сами без помощи? |
-| S6 | 50–100 | Платят? |
+| S2 | 10–20 | Нужен результат (альбом)? |
+| S4 | 30–50 | Сами в редакторе? ZIP vs «в Telegram»? |
+| S6 | 50–100 | Платят за рилсы/сервер? |
 | S9–10 | 100–300 | Экономика видео? |
 
-## Не делать до первого теста
+## Не делать до первого теста (S2)
 
-Сложный timeline, полный brand kit, команды, MAX, RN, 4K, keyframes.
+Второй мессенджер, Playwright-пайплайн «на время», полный Brand Kit, client MP4, merge аккаунтов, WA-оплата диалогов.

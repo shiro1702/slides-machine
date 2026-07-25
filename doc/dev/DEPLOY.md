@@ -18,31 +18,32 @@ VPS render worker     — Remotion, FFmpeg (с MP4)
 Signed URL / TG send
 ```
 
-## Сейчас (Sprint 0–2, только PNG)
+## Сейчас (Sprint 0–2, PNG)
 
-1. Vercel Free/Hobby — ок для закрытого теста  
-2. Neon Free — метаданные  
-3. Vercel Blob  
-4. Telegram webhook → Vercel  
+1. Vercel Free/Hobby — web, API, TG webhook  
+2. Neon Free — users/projects/jobs  
+3. Vercel Blob (+ CORS для client html-to-image)  
+4. **Remotion worker** для `renderStill` — с Sprint 2: отдельный процесс (Railway/Fly/VPS $5–10) или временно layout-backend на Vercel **только** пока закрытый тест; целевой путь — worker + Remotion  
 
-PNG можно временно без отдельного мощного worker; архитектуру job+storage заложить сразу.
+PNG без мощного GPU. Очередь jobs в Neon — сразу.
 
-## Когда нужен VPS worker
+## Render worker (Remotion)
 
-MP4, Remotion render, FFmpeg, proxy, video ingest.
+Не Vercel Functions (Chrome + лимиты времени/размера).
 
-### Рекомендуемые размеры
+| Этап | Worker |
+|------|--------|
+| PNG album (S2+) | 1× VPS/Railway 2–4 vCPU, poll `render_jobs` |
+| MP4 рилсы (S6+) | 4–8 vCPU / 16 GB NVMe; 1 тяжёлый MP4 за раз |
+| Очередь растёт | горизонтальные workers или `@remotion/lambda` |
 
-| Этап | App | Worker |
-|------|-----|--------|
-| Спрос (PNG) | 1 VPS 4 vCPU/8 GB **или** Vercel + лёгкий render | опционально |
-| Платящие + MP4 | 4 vCPU / 8 GB | **8 vCPU / 16 GB**, 150–200 GB NVMe |
-| Рост | то же | горизонтальные workers + Redis queue |
+Лицензия Remotion: бесплатно ≤3 человека; company seats — строка в [economics](../business/economics.md).
 
-GPU не нужна на старте.  
-1 тяжёлый MP4 одновременно на одном worker.
+**Не используем Playwright** как основной PNG-движок (см. [RENDER.md](./RENDER.md) Strategy B).
 
-Storage: S3-compatible от ~100 GB + автоочистка (free-юзеры: исходники через 30 дней).
+## Когда нужен «толстый» VPS
+
+MP4, FFmpeg, video ingest, proxy — с этапа рилсов.
 
 ## Vercel Free — хватит / не хватит
 

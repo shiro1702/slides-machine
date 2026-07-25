@@ -7,10 +7,10 @@ AI-студия контента: тема → карусель → рилс. MV
 1. **[project/PROJECT.md](./project/PROJECT.md)** — что строим, стек  
 2. **[project/ARCHITECTURE.md](./project/ARCHITECTURE.md)** — JSON-движок слайдов  
 3. **[dev/DEPLOY.md](./dev/DEPLOY.md)** · **[dev/ENV_SETUP.md](./dev/ENV_SETUP.md)**  
-4. **[sprints/SPRINTS.md](./sprints/SPRINTS.md)** — сейчас **Sprint 0**  
+4. **[sprints/SPRINTS.md](./sprints/SPRINTS.md)** — сейчас **Sprint 1→2**  
 5. **[project/FEATURES.md](./project/FEATURES.md)** — статусы фич  
 
-Брейншторм разобран: [brainstorms/25.07.2026-INDEX.md](./brainstorms/25.07.2026-INDEX.md).
+Брейнштормы: [25.07.2026-INDEX](./brainstorms/25.07.2026-INDEX.md) · [hybrid-render INDEX](./brainstorms/25.07.2026-hybrid-render-INDEX.md).
 
 ---
 
@@ -78,6 +78,7 @@ doc/
 | [business/economics.md](./business/economics.md) | Юнит-экономика |
 | [business/scaling.md](./business/scaling.md) | Триггеры |
 | [product/slide-engine.md](./product/slide-engine.md) | Theme → layout → elements |
+| [product/editor-flow.md](./product/editor-flow.md) | Бот → редактор → ZIP / альбом |
 | [product/carousels.md](./product/carousels.md) | PNG MVP |
 | [product/video-carousels.md](./product/video-carousels.md) | Сценовые рилсы |
 | [product/video-ingest.md](./product/video-ingest.md) | Видео-фоны, audio |
@@ -95,6 +96,8 @@ doc/
 |------|--|
 | [brainstorms/25.07.2026.md](./brainstorms/25.07.2026.md) | Сырой диалог |
 | [brainstorms/25.07.2026-INDEX.md](./brainstorms/25.07.2026-INDEX.md) | Куда вынесено |
+| [brainstorms/25.07.2026-hybrid-render.md](./brainstorms/25.07.2026-hybrid-render.md) | Гибридный рендер / каналы |
+| [brainstorms/25.07.2026-hybrid-render-INDEX.md](./brainstorms/25.07.2026-hybrid-render-INDEX.md) | Куда вынесено |
 
 ---
 

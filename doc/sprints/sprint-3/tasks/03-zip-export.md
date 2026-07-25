@@ -6,10 +6,12 @@
 
 ## Scope
 
-- ZIP из PNG конкретной project version
+- ZIP из PNG конкретной project version (**серверная сборка** из Blob — путь после Remotion)
 - Имена файлов с нулевым padding в порядке scenes
 - Manifest с project/version/format без чувствительных данных
-- Выдача через Telegram document или временную ссылку с учётом лимитов
+- Выдача через Telegram document или временную ссылку
+
+> Клиентский html-to-image ZIP (путь A) — **Sprint 4**, не замена этого task: здесь юзер ещё может не открывать редактор.
 
 ## Done when
 
@@ -23,4 +25,5 @@
 ## Связанные документы
 
 - [Статичные карусели: iOS/сохранение](../../../product/carousels.md#ios--сохранение)
+- [Рендер: пути A/B](../../../dev/RENDER.md)
 - [Лимиты Bot API](../../../project/BOT_MESSENGERS.md#лимиты-bot-api)
