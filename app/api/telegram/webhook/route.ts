@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { and, eq } from "drizzle-orm";
 import {
   answerCallbackQuery,
   sendTelegramMessage,
@@ -8,7 +9,6 @@ import {
 import { parseCallbackData } from "@/lib/telegram/callbacks";
 import {
   confirmReplyMarkup,
-  doneReplyMarkup,
   errorReplyMarkup,
   nicheReplyMarkup,
   startReplyMarkup,
@@ -16,10 +16,12 @@ import {
 } from "@/lib/telegram/keyboards";
 import { errorUserMessage, MSG } from "@/lib/telegram/messages";
 import { getFlow, resetFlow, upsertFlow } from "@/lib/telegram/flow-store";
-import { hasDatabaseUrl } from "@/lib/db";
+import { getDb, hasDatabaseUrl } from "@/lib/db";
+import { jobs, projects } from "@/lib/db/schema";
 import { upsertTelegramUser } from "@/lib/telegram/users";
 import { claimTelegramUpdate } from "@/lib/projects/create-from-flow";
 import { runCarouselGeneration } from "@/lib/projects/run-generation";
+import { kickJobWorker } from "@/lib/jobs";
 import { getNiche, getStyle } from "@/lib/meta";
 import {
   hashTelegramId,
@@ -39,9 +41,10 @@ async function safeSend(params: {
   replyMarkup?: unknown;
 }) {
   try {
-    await sendTelegramMessage(params);
+    return await sendTelegramMessage(params);
   } catch {
     console.error("telegram sendMessage failed");
+    return null;
   }
 }
 
@@ -109,9 +112,15 @@ async function runGenerationAndReply(params: {
     correlationId: params.correlationId,
     generationRequestId: params.generationRequestId,
     existingProjectId: params.existingProjectId,
+    chatId: params.chatId,
   });
 
   if (result.ok) {
+    const progress = await safeSend({
+      chatId: params.chatId,
+      text: MSG.rendering,
+    });
+
     await upsertFlow({
       telegramId: params.telegramId,
       step: "done",
@@ -121,13 +130,48 @@ async function runGenerationAndReply(params: {
         styleId: params.styleId,
         correlationId: result.correlationId,
         projectId: result.projectId,
+        chatId: params.chatId,
+        progressMessageId: progress?.message_id,
       },
     });
-    await safeSend({
-      chatId: params.chatId,
-      text: MSG.success(result.title, result.projectId),
-      replyMarkup: doneReplyMarkup(),
-    });
+
+    // Patch delivery context onto project + render job, then ensure worker runs
+    if (progress?.message_id) {
+      const db = getDb();
+      const rows = await db
+        .select()
+        .from(projects)
+        .where(eq(projects.id, result.projectId))
+        .limit(1);
+      const row = rows[0];
+      if (row) {
+        const payload = {
+          ...(row.payload as object),
+          chatId: params.chatId,
+          progressMessageId: progress.message_id,
+        };
+        await db
+          .update(projects)
+          .set({ payload, updatedAt: new Date() })
+          .where(eq(projects.id, result.projectId));
+        await db
+          .update(jobs)
+          .set({
+            result: {
+              chatId: params.chatId,
+              progressMessageId: progress.message_id,
+            },
+          })
+          .where(
+            and(
+              eq(jobs.projectId, result.projectId),
+              eq(jobs.type, "render_carousel"),
+            ),
+          );
+      }
+    }
+    kickJobWorker();
+    // Album + final success message come from the job worker
     return;
   }
 

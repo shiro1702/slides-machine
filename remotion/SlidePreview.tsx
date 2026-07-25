@@ -9,7 +9,7 @@ export type SlidePreviewProps = {
   height: number;
 };
 
-/** Minimal Remotion slide stub — real layouts land in Sprint 2. */
+/** Remotion slide stub — prefer CarouselSlide for real layouts (Sprint 2). */
 export function SlidePreview({
   title,
   subtitle,

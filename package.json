@@ -14,6 +14,7 @@
     "test:watch": "vitest",
     "validate:schema": "tsx scripts/validate-schema.ts",
     "generate:smoke": "tsx scripts/generate-smoke.ts",
+    "render:smoke": "tsx scripts/render-smoke.ts",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
@@ -23,7 +24,10 @@
   "dependencies": {
     "@ai-sdk/groq": "^4.0.13",
     "@neondatabase/serverless": "^1.1.0",
+    "@remotion/bundler": "^4.0.499",
     "@remotion/player": "^4.0.499",
+    "@remotion/renderer": "^4.0.499",
+    "@sparticuz/chromium": "^133.0.0",
     "@vercel/blob": "^2.6.1",
     "ai": "^7.0.37",
     "dotenv": "^17.4.2",
@@ -32,6 +36,7 @@
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "remotion": "^4.0.499",
+    "sharp": "^0.35.3",
     "zod": "^4.4.3"
   },
   "devDependencies": {

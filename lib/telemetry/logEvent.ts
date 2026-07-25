@@ -5,7 +5,15 @@ export type TelemetryEventName =
   | "style_selected"
   | "generation_started"
   | "generation_succeeded"
-  | "generation_failed";
+  | "generation_failed"
+  | "render_started"
+  | "render_succeeded"
+  | "render_failed"
+  | "render_completed"
+  | "delivery_started"
+  | "delivery_succeeded"
+  | "delivery_failed"
+  | "delivery_skipped_idempotent";
 
 export type TelemetryProps = {
   correlationId?: string;

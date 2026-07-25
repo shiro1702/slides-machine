@@ -1,6 +1,6 @@
 # Sprint 2 — PNG + media group
 
-**Статус:** запланирован · **Тест:** закрытый №1, 10–20 пользователей
+**Статус:** код готов · закрытый тест после deploy · **Тест:** закрытый №1, 10–20 пользователей
 
 ## Цель
 
@@ -15,18 +15,18 @@
 
 ## Чеклист
 
-- [ ] Первые templates/layouts реализованы как React/Remotion-compatible компоненты ([task 01](./tasks/01-slide-templates.md))
-- [ ] F1.3 — серверный PNG-render воспроизводимо создаёт все слайды ([task 02](./tasks/02-png-render.md))
-- [ ] F1.8 — job проходит queue lifecycle и сохраняет outputs в Blob ([task 03](./tasks/03-render-queue-storage.md))
-- [ ] F1.4 — Telegram получает album в правильном порядке ([task 04](./tasks/04-telegram-media-group.md))
-- [ ] Закрытый тест измеряет время до usable carousel и сигнал спроса ([task 05](./tasks/05-closed-test.md))
+- [x] Первые templates/layouts реализованы как React/Remotion-compatible компоненты ([task 01](./tasks/01-slide-templates.md))
+- [x] F1.3 — серверный PNG-render воспроизводимо создаёт все слайды ([task 02](./tasks/02-png-render.md))
+- [x] F1.8 — job проходит queue lifecycle и сохраняет outputs в Blob ([task 03](./tasks/03-render-queue-storage.md))
+- [x] F1.4 — Telegram получает album в правильном порядке ([task 04](./tasks/04-telegram-media-group.md))
+- [ ] Закрытый тест измеряет время до usable carousel и сигнал спроса ([task 05](./tasks/05-closed-test.md)) — [скрипт](./test-script.md)
 
 ## Критерии выхода
 
-- [ ] Пользователь получает готовый album без ручной операции команды
-- [ ] Одинаковый project JSON даёт визуально одинаковые PNG
-- [ ] Ошибка одного job не блокирует следующие; retry не дублирует album
-- [ ] p50 time to first result и доля результата ≤3 минут измеряются
+- [x] Пользователь получает готовый album без ручной операции команды *(в коде; live после env)*
+- [x] Одинаковый project JSON даёт визуально одинаковые PNG
+- [x] Ошибка одного job не блокирует следующие; retry не дублирует album
+- [ ] p50 time to first result и доля результата ≤3 минут измеряются *(после закрытого теста)*
 - [ ] Собраны ответы: понятен ли бот, можно ли публиковать, что переписывают, хотят ли ещё
 
 ## Gate этапа

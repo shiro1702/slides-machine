@@ -1,6 +1,6 @@
 # Спринты
 
-**1 спринт ≈ 1 неделя** (соло: 1–2 нед). Текущий: **Sprint 1**.  
+**1 спринт ≈ 1 неделя** (соло: 1–2 нед). Текущий: **Sprint 2**.  
 Продуктовые этапы: [ROADMAP.md](../roadmap/ROADMAP.md) · Фичи и статусы: [FEATURES.md](../project/FEATURES.md).
 
 Sprint 0–3 детализированы как `sprint-N/README.md` + `tasks/`. Sprint 4–12 пока остаются укрупнённым планом и уточняются после прохождения продуктовых gates.
@@ -19,7 +19,7 @@ Sprint 0–3 детализированы как `sprint-N/README.md` + `tasks/`
 
 **Тест:** внутренний, основатель + 2–3 SMM. → [план и критерии выхода](./sprint-1/README.md) · [задачи](./sprint-1/tasks/)
 
-## Sprint 2 — PNG + media group
+## Sprint 2 — PNG + media group *(код готов · закрытый тест после deploy)*
 
 **Этап 1 · F1.3, F1.4, F1.8 и измерение F1.7.** Templates/layouts → server PNG render → queue → Blob → Telegram album.
 
@@ -27,7 +27,7 @@ Sprint 0–3 детализированы как `sprint-N/README.md` + `tasks/`
 
 Gate: **нужен ли результат?** Понятен ли бот, можно ли публиковать, что переписывают, хотят ли ещё?
 
-→ [план и критерии выхода](./sprint-2/README.md) · [задачи](./sprint-2/tasks/)
+→ [план и критерии выхода](./sprint-2/README.md) · [задачи](./sprint-2/tasks/) · [test script](./sprint-2/test-script.md)
 
 ## Sprint 3 — варианты, экспорт и качество
 

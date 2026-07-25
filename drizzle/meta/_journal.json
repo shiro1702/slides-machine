@@ -15,6 +15,13 @@
       "when": 1784969708764,
       "tag": "0001_bot_flows_telegram_updates",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1784976000000,
+      "tag": "0002_jobs_lease_result",
+      "breakpoints": true
     }
   ]
 }

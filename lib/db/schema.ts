@@ -32,6 +32,31 @@ export type BotFlowData = {
   correlationId?: string;
   generationRequestId?: string;
   errorCode?: string;
+  /** Telegram chat for async render delivery */
+  chatId?: number;
+  /** Progress message while PNG/album is in flight */
+  progressMessageId?: number;
+};
+
+/** Stored on jobs.result after render / delivery */
+export type JobResult = {
+  slides?: Array<{
+    sceneId: string;
+    filename: string;
+    pathname: string;
+    url: string;
+    width: number;
+    height: number;
+    bytes: number;
+    contentType: string;
+  }>;
+  manifestPathname?: string;
+  manifestUrl?: string;
+  renderMs?: number;
+  progressMessageId?: number;
+  chatId?: number;
+  telegramMessageIds?: number[];
+  albumDeliveredAt?: string;
 };
 
 export const users = pgTable(
@@ -87,6 +112,8 @@ export const jobs = pgTable(
     status: jobStatusEnum("status").notNull().default("queued"),
     attempts: integer("attempts").notNull().default(0),
     error: text("error"),
+    result: jsonb("result").$type<JobResult>().notNull().default({}),
+    leaseExpiresAt: timestamp("lease_expires_at", { withTimezone: true }),
     createdAt: timestamp("created_at", { withTimezone: true })
       .notNull()
       .defaultNow(),
@@ -96,6 +123,7 @@ export const jobs = pgTable(
   (table) => [
     index("jobs_project_id_idx").on(table.projectId),
     index("jobs_status_idx").on(table.status),
+    index("jobs_lease_expires_at_idx").on(table.leaseExpiresAt),
   ],
 );
 
