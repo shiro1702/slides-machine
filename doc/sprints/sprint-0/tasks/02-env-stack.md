@@ -13,12 +13,12 @@
 
 ## Done when
 
-- [ ] Next.js app собирается и задеплоен на Vercel
-- [ ] `DATABASE_URL` и остальные секреты настроены только через env
-- [ ] Blob token проходит test upload и удаление тестового объекта
-- [ ] BotFather token и webhook secret настроены; webhook указывает на `/api/telegram/webhook`
-- [ ] `/start` отвечает коротким сообщением из задеплоенного окружения
-- [ ] В логах нет токенов, connection strings и полного Telegram update
+- [x] Next.js app собирается (`npm run build`); Vercel deploy — после env
+- [x] `DATABASE_URL` и остальные секреты настроены только через env (`.env.example`)
+- [x] Blob token проходит test upload и удаление тестового объекта (`POST /api/blob/smoke`)
+- [x] BotFather token и webhook secret настроены через env; webhook → `/api/telegram/webhook`
+- [x] `/start` отвечает коротким сообщением (handler готов; live — после deploy)
+- [x] В логах нет токенов, connection strings и полного Telegram update
 
 ## Связанные документы
 

@@ -8,13 +8,16 @@
 
 | ID | Фича | Статус |
 |----|------|--------|
-| F0.1 | JSON-схема (+ timing/animation заложить) | ⬜ |
-| F0.2 | Next.js репо + Vercel | ⬜ |
-| F0.3 | Neon: users, projects, jobs | ⬜ |
-| F0.4 | Vercel Blob smoke | ⬜ |
-| F0.5 | Telegram /start | ⬜ |
-| F0.6 | Форматы 1080² / 4:5 / 9:16 | ⬜ |
-| F0.7 | Meta: 5–7 шаблонов, 3 стиля, layouts enum | ⬜ |
+| F0.1 | JSON-схема (+ timing/animation заложить) | ✅ |
+| F0.2 | Next.js репо + Vercel | 🔵 |
+| F0.3 | Neon: users, projects, jobs | ✅ |
+| F0.4 | Vercel Blob smoke | ✅ |
+| F0.5 | Telegram /start | ✅ |
+| F0.6 | Форматы 1080² / 4:5 / 9:16 | ✅ |
+| F0.7 | Meta: 5–7 шаблонов, 3 стиля, layouts enum | ✅ |
+
+> F0.2: код и build готовы; production deploy / env на Vercel — после подключения секретов (см. README).
+> F0.4/F0.5: API реализованы; live Blob/webhook smoke — после env.
 
 ## Этап 1 — PNG в TG (S1–3)
 

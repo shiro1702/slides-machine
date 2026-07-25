@@ -13,11 +13,11 @@
 
 ## Done when
 
-- [ ] Для 3 ниш описаны slug, аудитория, тон и допустимые цели контента
-- [ ] Для 5–7 templates заданы slug, назначение и последовательность ролей слайдов
-- [ ] Для 3 visual styles заданы slug и базовые theme tokens
-- [ ] 10–12 layout ids из [slide-engine.md](../../../product/slide-engine.md) занесены в enum схемы
-- [ ] Все ссылки `templateId`, `themeId` и `layout` в fixture проходят валидацию
+- [x] Для 3 ниш описаны slug, аудитория, тон и допустимые цели контента
+- [x] Для 5–7 templates заданы slug, назначение и последовательность ролей слайдов
+- [x] Для 3 visual styles заданы slug и базовые theme tokens
+- [x] 10–12 layout ids из [slide-engine.md](../../../product/slide-engine.md) занесены в enum схемы
+- [x] Все ссылки `templateId`, `themeId` и `layout` в fixture проходят валидацию
 
 ## Не входит
 
