@@ -23,34 +23,41 @@
 
 | ID | Фича | Статус |
 |----|------|--------|
-| F1.1 | Flow ниша → тема → стиль | ⬜ |
-| F1.2 | LLM → carousel JSON + Zod | ⬜ |
-| F1.3 | PNG render | ⬜ |
+| F1.1 | Flow ниша → тема → стиль | ✅ |
+| F1.2 | LLM → carousel JSON + Zod | ✅ |
+| F1.3 | PNG render (Remotion `renderStill`, путь B) | ⬜ |
 | F1.4 | Media group | ⬜ |
-| F1.5 | Кнопки вариант/стиль/ZIP | ⬜ |
+| F1.5 | Кнопки вариант/стиль/ZIP (ZIP из Blob) | ⬜ |
 | F1.6 | Версии проекта | ⬜ |
-| F1.7 | Аналитика воронки | ⬜ |
-| F1.8 | Очередь jobs | ⬜ |
+| F1.7 | Аналитика воронки | 🔵 |
+| F1.8 | Очередь jobs | 🔵 |
 
-## Этап 2 — Mini App (S4–5)
+> F1.3: Strategy B — Remotion, не Playwright. Shared layouts без Next-магии.  
+> F1.7/F1.8: telemetry + queued job; worker — Sprint 2.
+
+## Этап 2 — Mini App + client export (S4–5)
 
 | ID | Фича | Статус |
 |----|------|--------|
-| F2.1 | Mini App редактор v1 | ⬜ |
+| F2.1 | Mini App / веб-редактор + signed link auth | ⬜ |
 | F2.2 | Текст / порядок / add-delete slides | ⬜ |
 | F2.3 | Смена шаблона | ⬜ |
-| F2.4 | Re-export | ⬜ |
+| F2.4 | Re-export (server путь B из редактора) | ⬜ |
+| F2.4a | Client ZIP html-to-image (путь A) | ⬜ |
+| F2.4b | Upload фото → Blob (client) | ⬜ |
 | F2.5 | История проектов | ⬜ |
 | F2.6 | Лимиты free | ⬜ |
 | F2.7 | Ref links | ⬜ |
 | F2.8 | Админка min | ⬜ |
 
+> Гибрид A/B: [RENDER.md](../dev/RENDER.md) · [editor-flow.md](../product/editor-flow.md).
+
 ## Этап 3 — MP4 из слайдов (S6)
 
 | ID | Фича | Статус |
 |----|------|--------|
-| F3.1 | VPS worker | ⬜ |
-| F3.2 | Animated → MP4 9:16 | ⬜ |
+| F3.1 | VPS worker (тот же, что PNG) | ⬜ |
+| F3.2 | Remotion `renderMedia` → MP4 9:16 | ⬜ |
 | F3.3 | Музыка v1 | ⬜ |
 | F3.4 | Кнопка «Сделать рилс» | ⬜ |
 
@@ -80,7 +87,8 @@
 | F9.1 | Brand kits UI | ⬜ |
 | F9.2 | Video → carousel (transcript) | ⬜ |
 | F9.3 | Talking-head / edit.json | ⬜ |
-| F9.4 | MAX adapter | ⬜ |
+| F9.4 | Messenger adapters (WA / VK / Max) — Core уже channel-agnostic | ⬜ |
+| F9.4a | Миграция `user_identities` (подготовка S3–4) | ⬜ |
 | F9.5 | React Native / Share Extension | ⬜ |
 | F9.6 | Charts layouts | ⬜ |
 | F9.7 | Drag stickers full editor | ⬜ |

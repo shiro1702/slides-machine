@@ -5,6 +5,7 @@
 | Файл | Назначение |
 |------|------------|
 | [slide-engine.md](./slide-engine.md) | Уровни: theme → template → layout → elements → effects |
+| [editor-flow.md](./editor-flow.md) | Бот → веб → ZIP / альбом (гибридный экспорт) |
 | [carousels.md](./carousels.md) | Статичные PNG — ядро MVP |
 | [video-carousels.md](./video-carousels.md) | Сценовые рилсы из тех же слайдов |
 | [video-ingest.md](./video-ingest.md) | Видео-фоны, ffprobe, transitions, audio |

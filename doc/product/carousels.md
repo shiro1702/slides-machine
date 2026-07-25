@@ -24,8 +24,10 @@ TG media group / ZIP / Mini App
 - Из текста / Markdown  
 - Выбор шаблона / стиля  
 - Базовые бренд-цвета  
-- Экспорт PNG/JPEG  
+- Экспорт: **альбом в мессенджер** (Remotion) и/или **ZIP** (S3 из Blob; S4 — html-to-image на клиенте)  
 - Caption + hashtags (опц.)  
+
+Гибридный флоу: [editor-flow.md](./editor-flow.md) · [RENDER.md](../dev/RENDER.md).
 
 ## Форматы
 

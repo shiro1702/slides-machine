@@ -13,12 +13,12 @@
 
 ## Done when
 
-- [ ] Каждое событие имеет user/project id, timestamp и безопасные технические свойства
-- [ ] Путь одной генерации собирается по correlation id
-- [ ] Пользователь получает retry/new-project action после recoverable error
-- [ ] Timeout не оставляет project/job в промежуточном статусе
-- [ ] В telemetry нет токенов, connection strings и полного пользовательского контента
-- [ ] Можно посчитать completion rate, first-pass validation и latency
+- [x] Каждое событие имеет user/project id, timestamp и безопасные технические свойства
+- [x] Путь одной генерации собирается по correlation id
+- [x] Пользователь получает retry/new-project action после recoverable error
+- [x] Timeout не оставляет project/job в промежуточном статусе
+- [x] В telemetry нет токенов, connection strings и полного пользовательского контента
+- [x] Можно посчитать completion rate, first-pass validation и latency
 
 ## Связанные документы
 

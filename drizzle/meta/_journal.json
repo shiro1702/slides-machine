@@ -8,6 +8,13 @@
       "when": 1784968328334,
       "tag": "0000_init_users_projects_jobs",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1784969708764,
+      "tag": "0001_bot_flows_telegram_updates",
+      "breakpoints": true
     }
   ]
 }

@@ -1,45 +1,111 @@
-# Рендер: браузер vs сервер
+# Рендер: клиент + сервер (гибрид)
 
-Источник: brainstorm 25.07.2026.
+Источник: brainstorm [hybrid-render](../brainstorms/25.07.2026-hybrid-render-INDEX.md) + 25.07.2026.
 
-## Правило
+## Главный принцип
 
-| Задача | Где |
-|--------|-----|
-| Редактор + preview анимаций | Браузер (React / Remotion Player) |
-| Финальный PNG/JPEG | **Сервер** (стабильность, шрифты, Safari) |
-| Финальный MP4 | **VPS worker** (Remotion + Chromium + FFmpeg) |
-
-## Клиентский MP4 — не основной путь
-
-Возможно через MediaRecorder / WebCodecs / ffmpeg.wasm, но:
-
-- iOS Safari капризен (кодеки, память, фон);
-- часто WebM вместо MP4;
-- тяжёлый UX на телефоне.
-
-Remotion Player в браузере — **да**. Remotion render MP4 в браузере — **нет** как основной путь.
-
-## PNG на клиенте
-
-html-to-image / canvas — ок для прототипа; для продакшена лучше сервер (одинаковый результат у всех, кастомные шрифты).
-
-## Remotion как единый rendering layer
+**Один набор React-компонентов слайдов** → три пути вывода.  
+Два разных рендера (веб «красиво», бот «чуть иначе») — запрещённая ошибка.
 
 ```
-carousel.json → Remotion → PNG slides
-carousel.json → Remotion → MP4 (animated)
-edit.json     → Remotion → MP4 (talking head, позже)
+                  ┌─ A. Браузер: html-to-image → ZIP
+Project JSON ─────┼─ B. Worker: Remotion renderStill → PNG → мессенджер
+                  └─ C. Worker: Remotion renderMedia → MP4 (рилсы)
 ```
 
-Альтернатива только для статики: satori / playwright — быстрее, но ломает единую дизайн-систему со видео. **Решение:** слайды на React/Remotion-компонентах с первого дня.
+Все пути едят shared slide components (чистый React, props-only).
 
-## Очередь
+## Пути экспорта
 
-Даже для PNG:
+| Путь | Где | Когда | Тариф |
+|------|-----|-------|-------|
+| **A** | Клиент: `html-to-image` + JSZip | Редактор «Скачать ZIP» | Free (± watermark) |
+| **B** | Сервер: Remotion `renderStill` | Бот без редактора / «Отправить в Telegram» | Pro / удобство |
+| **C** | Сервер: Remotion `renderMedia` | Рилсы | Pro+ |
+
+Клиентский MP4 (MediaRecorder / ffmpeg.wasm) — **не** основной путь (iOS, кодеки, память).
+
+## Shared components (`@slides`)
 
 ```
-generate_content → render_carousel → send_to_telegram
+packages/slides/          # или remotion/layouts → выделить пакет
+  components/             # HookSlide, NumberedSlide, …
+  themes/tokens.ts
+  renderSlide.tsx         # type + data + theme + size → JSX
 ```
 
-Webhook не ждёт рендер. MP4: 1–3 мин CPU — очередь обязательна до публичного видео.
+**Нельзя в shared:** `next/image`, `next/font`, fetch внутри компонента, Next-only CSS.  
+**Можно:** чистые FC, inline styles / токены, SVG, обычный `<img>`.  
+Шрифты — **файлы из пакета** (`staticFile` / `@font-face`), не CDN (иначе A≠B).
+
+Обёртки:
+
+- `apps/web` — preview + html-to-image  
+- `apps/remotion` (или `remotion/`) — `<Composition>` + `renderStill` / `renderMedia`
+
+## Путь A — клиентский ZIP
+
+1. Слайды в DOM 1080×1350 (на экране `transform: scale`)  
+2. `await document.fonts.ready`  
+3. Последовательно `toPng` + прогресс («3 из 7») — не `Promise.all` на мобилках  
+4. JSZip → `saveAs`
+
+### Подводные камни
+
+| Риск | Митигация |
+|------|-----------|
+| Шрифты | только после `fonts.ready` |
+| CORS / tainted canvas | Blob Store с `Access-Control-Allow-Origin` |
+| Скрытые слайды | offscreen (`left: -9999`), не `display: none` |
+| Safari/iOS | двойной `toPng` (прогрев); тест на iPhone обязателен |
+| Память | последовательный рендер |
+| Эмодзи | системные ок для MVP; позже Twemoji |
+
+**Плюсы:** ~$0/карусель, WYSIWYG, без очереди, не жрёт Vercel CPU.
+
+## Путь B — сервер Remotion (Strategy B)
+
+Remotion = headless Chromium: `renderStill` → PNG, `renderMedia` → MP4.  
+**Playwright / Satori как основной серверный путь — не берём** (второй движок вёрстки → расхождения; Playwright всё равно выкинем перед рилсами).
+
+```
+INSERT render_jobs → worker poll
+  → renderStill × N
+  → Blob URLs
+  → Core → messenger adapter → album / photos
+```
+
+Worker: Railway / Fly / VPS $5–10 (не Vercel Functions).  
+Карусель ~7 слайдов ≈ 5–15 с — ок для чата («Генерирую…»).
+
+Лицензия Remotion: бесплатно для ≤3 человек; company license заложить в экономику.
+
+## Путь C — рилсы
+
+Тот же composition + timing/animation → `renderMedia`.  
+Инфра та же, что у B. При очереди → `@remotion/lambda` / Cloud Run.
+
+## Preview в редакторе
+
+Remotion Player / HTML preview тех же компонентов — **да**.  
+Финальный PNG/MP4 на слабом iPhone через клиент — только путь A с прогрессом; иначе путь B.
+
+## Очередь (путь B/C)
+
+```
+generate_content → (optional) render_carousel → deliver_to_channel
+```
+
+Webhook мессенджера не ждёт рендер. JSON в Neon — источник правды; PNG/MP4 — артефакты.
+
+## Маппинг на спринты
+
+| Что | Спринт |
+|-----|--------|
+| Shared Remotion-compatible layouts + путь B (album) | **2** |
+| ZIP из уже готовых PNG (бот) | **3** |
+| Редактор + путь A (html-to-image) + «в Telegram» → B | **4** |
+| Watermark Free / Pro server | **5 / 11** |
+| Путь C MP4 | **6** |
+
+См. [editor-flow.md](../product/editor-flow.md) · [DEPLOY.md](./DEPLOY.md) · [SPRINTS.md](../sprints/SPRINTS.md).

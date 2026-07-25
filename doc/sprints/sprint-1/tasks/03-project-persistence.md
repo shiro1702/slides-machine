@@ -13,12 +13,12 @@
 
 ## Done when
 
-- [ ] Project хранит исходные параметры flow и валидный JSON payload
-- [ ] Успех атомарно переводит project в `ready` и создаёт ровно один queued job
-- [ ] Ошибка сохраняет диагностируемый project status без «вечного» queued job
-- [ ] Повтор webhook/callback возвращает существующий результат
-- [ ] Проект нельзя прочитать или изменить от имени другого Telegram user
-- [ ] Интеграционный smoke проходит путь user → project → job
+- [x] Project хранит исходные параметры flow и валидный JSON payload
+- [x] Успех атомарно переводит project в `ready` и создаёт ровно один queued job
+- [x] Ошибка сохраняет диагностируемый project status без «вечного» queued job
+- [x] Повтор webhook/callback возвращает существующий результат
+- [x] Проект нельзя прочитать или изменить от имени другого Telegram user
+- [ ] Интеграционный smoke проходит путь user → project → job *(нужен `DATABASE_URL`)*
 
 ## Связанные документы
 
