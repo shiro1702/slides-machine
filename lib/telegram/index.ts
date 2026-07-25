@@ -18,9 +18,18 @@ export type TelegramMessage = {
   text?: string;
 };
 
+export type TelegramCallbackQuery = {
+  id: string;
+  from: TelegramUser;
+  message?: TelegramMessage;
+  data?: string;
+  chat_instance?: string;
+};
+
 export type TelegramUpdate = {
   update_id: number;
   message?: TelegramMessage;
+  callback_query?: TelegramCallbackQuery;
 };
 
 export function verifyWebhookSecret(
@@ -33,40 +42,46 @@ export function verifyWebhookSecret(
   return headerValue === expected;
 }
 
-export async function sendTelegramMessage(params: {
-  chatId: number;
-  text: string;
-  replyMarkup?: unknown;
-}): Promise<void> {
+async function telegramApi(
+  method: string,
+  body: Record<string, unknown>,
+): Promise<void> {
   const token = process.env.TELEGRAM_BOT_TOKEN;
   if (!token) {
     throw new Error("TELEGRAM_BOT_TOKEN is not set");
   }
 
-  const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+  const res = await fetch(`https://api.telegram.org/bot${token}/${method}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      chat_id: params.chatId,
-      text: params.text,
-      reply_markup: params.replyMarkup,
-    }),
+    body: JSON.stringify(body),
   });
 
   if (!res.ok) {
-    // Do not log response body — may contain chat metadata
-    throw new Error(`Telegram sendMessage failed with status ${res.status}`);
+    throw new Error(`Telegram ${method} failed with status ${res.status}`);
   }
 }
 
-export function startReplyMarkup() {
-  return {
-    inline_keyboard: [
-      [{ text: "Сделать карусель", callback_data: "new_carousel" }],
-      [
-        { text: "Примеры", callback_data: "examples" },
-        { text: "Как это работает", callback_data: "how_it_works" },
-      ],
-    ],
-  };
+export async function sendTelegramMessage(params: {
+  chatId: number;
+  text: string;
+  replyMarkup?: unknown;
+}): Promise<void> {
+  await telegramApi("sendMessage", {
+    chat_id: params.chatId,
+    text: params.text,
+    reply_markup: params.replyMarkup,
+  });
 }
+
+export async function answerCallbackQuery(params: {
+  callbackQueryId: string;
+  text?: string;
+}): Promise<void> {
+  await telegramApi("answerCallbackQuery", {
+    callback_query_id: params.callbackQueryId,
+    text: params.text,
+  });
+}
+
+export { startReplyMarkup } from "./keyboards";

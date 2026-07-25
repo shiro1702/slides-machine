@@ -13,12 +13,12 @@
 
 ## Done when
 
-- [ ] LLM получает только необходимые параметры и идентификаторы из server-side meta
-- [ ] Ответ парсится и валидируется до записи как готовый draft
-- [ ] Retry ограничен и различает provider error, invalid JSON и schema mismatch
-- [ ] Fixture-набор покрывает 3 ниши, кириллицу, длинную тему и потенциально опасный input
-- [ ] На успешных fixtures есть cover hook, содержательные слайды и CTA
-- [ ] Логи не содержат provider key и полный prompt/user content по умолчанию
+- [x] LLM получает только необходимые параметры и идентификаторы из server-side meta
+- [x] Ответ парсится и валидируется до записи как готовый draft
+- [x] Retry ограничен и различает provider error, invalid JSON и schema mismatch
+- [x] Fixture-набор покрывает 3 ниши, кириллицу, длинную тему и потенциально опасный input
+- [x] На успешных fixtures есть cover hook, содержательные слайды и CTA
+- [x] Логи не содержат provider key и полный prompt/user content по умолчанию
 
 ## Связанные документы
 
