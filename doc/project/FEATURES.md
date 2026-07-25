@@ -23,14 +23,18 @@
 
 | ID | Фича | Статус |
 |----|------|--------|
-| F1.1 | Flow ниша → тема → стиль | ⬜ |
-| F1.2 | LLM → carousel JSON + Zod | ⬜ |
+| F1.1 | Flow ниша → тема → стиль | ✅ |
+| F1.2 | LLM → carousel JSON + Zod | ✅ |
 | F1.3 | PNG render | ⬜ |
 | F1.4 | Media group | ⬜ |
 | F1.5 | Кнопки вариант/стиль/ZIP | ⬜ |
 | F1.6 | Версии проекта | ⬜ |
-| F1.7 | Аналитика воронки | ⬜ |
-| F1.8 | Очередь jobs | ⬜ |
+| F1.7 | Аналитика воронки | 🔵 |
+| F1.8 | Очередь jobs | 🔵 |
+
+> F1.1/F1.2: код готов (fixture LLM + Groq path). Live TG/SMM — после env.
+> F1.7: structured telemetry events в stdout (без админки).
+> F1.8: `render_carousel` job ставится в `queued`; worker — Sprint 2.
 
 ## Этап 2 — Mini App (S4–5)
 

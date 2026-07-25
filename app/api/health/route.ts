@@ -4,6 +4,6 @@ export async function GET() {
   return NextResponse.json({
     ok: true,
     service: "slides-machine",
-    sprint: 0,
+    sprint: 1,
   });
 }
