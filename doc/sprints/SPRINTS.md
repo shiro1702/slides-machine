@@ -7,9 +7,9 @@ Sprint 0–3 детализированы как `sprint-N/README.md` + `tasks/`
 
 ---
 
-## Sprint 0 — архитектура и скелет *(сейчас)*
+## Sprint 0 — архитектура и скелет *(код готов · deploy после env)*
 
-**Этап 0 · F0.1–F0.7.** JSON-схема и форматы · meta ниш/шаблонов/стилей · Next.js/Vercel · Neon users/projects/jobs · Blob smoke · Telegram `/start`.
+**Этап 0 · F0.1–F0.7.** JSON-схема и форматы · meta ниш/шаблонов/стилей · Next.js/Remotion stub · Neon users/projects/jobs · Blob smoke API · Telegram `/start` handler.
 
 **Юзеров не зовём.** → [план и критерии выхода](./sprint-0/README.md) · [задачи](./sprint-0/tasks/)
 

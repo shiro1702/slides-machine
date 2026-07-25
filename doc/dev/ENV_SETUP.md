@@ -31,9 +31,9 @@ cp .env.example .env.local   # когда появится
 
 ## Чеклист
 
-- [ ] Neon  
-- [ ] Blob  
-- [ ] Bot + webhook  
-- [ ] Preview/Production env  
+- [x] Neon schema + migration в репо (`drizzle/`)
+- [x] Blob smoke API
+- [x] Bot + webhook handler
+- [ ] Preview/Production env (заполнить секреты на Vercel)
 
 См. [DEPLOY.md](./DEPLOY.md).

@@ -108,6 +108,7 @@ script.md → edit.json → локальный агент / cloud worker → Rem
 
 ## Связанные документы
 
+- **Каноническая JSON-схема (Zod):** [`lib/schemas`](../../lib/schemas/) — `project`, scenes, elements, format→размеры, timing/animation/audio
 - [../product/slide-engine.md](../product/slide-engine.md)
 - [../dev/DEPLOY.md](../dev/DEPLOY.md)
 - [../dev/RENDER.md](../dev/RENDER.md)

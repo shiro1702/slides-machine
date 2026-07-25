@@ -19,12 +19,12 @@
 
 ## Done when
 
-- [ ] Миграция поднимает таблицы `users`, `projects`, `jobs` на пустой Neon database
-- [ ] Foreign keys и индексы покрывают `telegram_id`, `user_id`, `project_id`, `status`
-- [ ] Статусы ограничены enum/check constraints или общей типизированной схемой
-- [ ] Smoke создаёт пользователя, проект и job, затем читает их обратно
-- [ ] Повторный запуск migration не повреждает существующие данные
-- [ ] В репозитории нет секретов и дампов production data
+- [x] Миграция поднимает таблицы `users`, `projects`, `jobs` на пустой Neon database
+- [x] Foreign keys и индексы покрывают `telegram_id`, `user_id`, `project_id`, `status`
+- [x] Статусы ограничены enum/check constraints или общей типизированной схемой
+- [x] Smoke создаёт пользователя, проект и job, затем читает их обратно (`npm run db:smoke`)
+- [x] Повторный запуск migration не повреждает существующие данные (Drizzle journal)
+- [x] В репозитории нет секретов и дампов production data
 
 ## Связанные документы
 
