@@ -21,15 +21,19 @@
 
 ### 1 — PNG в Telegram
 Тема → JSON → PNG → media group. Тест 10–20.  
-Вопрос: нужен ли результат?
+Вопрос: нужен ли результат? Какие стили выбирают?
+
+Визуал MVP: 3 bundle-стиля × 5 типов слайдов. Brand Theme / charts — следующие итерации ([slide-engine.md](../product/slide-engine.md)).
 
 ### 2 — Mini App
 Правки, история, лимиты. Бета 30–50.  
-Вопрос: сами без помощи?
+Вопрос: сами без помощи? Нужны свои цвета под клиентов?
+
+Сюда же: picker темы, font pairs, расширенные types + `progress_bars` / `big_percent`.
 
 ### 3 — MP4 из слайдов
 Animated + музыка. Early pay 50–100.  
-Вопрос: инструмент или игрушка?
+Вопрос: инструмент или игрушка? Тянут multi-theme?
 
 ### 4 — Видео-MVP
 Ingest, trim, transitions, audio tracks. 100–300.  

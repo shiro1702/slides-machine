@@ -42,12 +42,18 @@
 |----|------|--------|
 | F2.1 | Mini App редактор v1 | ⬜ |
 | F2.2 | Текст / порядок / add-delete slides | ⬜ |
-| F2.3 | Смена шаблона | ⬜ |
+| F2.3 | Смена шаблона / layout-стиля | ⬜ |
 | F2.4 | Re-export | ⬜ |
 | F2.5 | История проектов | ⬜ |
 | F2.6 | Лимиты free | ⬜ |
 | F2.7 | Ref links | ⬜ |
 | F2.8 | Админка min | ⬜ |
+| F2.9 | Своя Brand Theme: 2 цвета + авто-токены + контраст | ⬜ |
+| F2.10 | Выбор font pair из курируемого списка | ⬜ |
+| F2.11 | Несколько тем на пользователя + лимиты тарифов | ⬜ |
+| F2.12 | Расширение slide types (quote, myth_fact, steps, …) | ⬜ |
+
+> F2.9–F2.12: из [styles-themes brainstorm](../brainstorms/25.07.2026-styles-themes-INDEX.md). S4 — picker/fonts/types/charts; S5 — multi-theme + limits. Полный Brand Kit UI / logo palette — F9.1.
 
 ## Этап 3 — MP4 из слайдов (S6)
 
@@ -81,11 +87,12 @@
 
 | ID | Фича | Статус |
 |----|------|--------|
-| F9.1 | Brand kits UI | ⬜ |
+| F9.1 | Brand kits UI (лого, палитра из лого/URL, dark variant) | ⬜ |
 | F9.2 | Video → carousel (transcript) | ⬜ |
 | F9.3 | Talking-head / edit.json | ⬜ |
 | F9.4 | MAX adapter | ⬜ |
 | F9.5 | React Native / Share Extension | ⬜ |
-| F9.6 | Charts layouts | ⬜ |
+| F9.6 | Charts layouts (`progress_bars`/`big_percent` → S4; bar/timeline → S5–6; pie позже) | ⬜ |
 | F9.7 | Drag stickers full editor | ⬜ |
 | F9.8 | Agency / teams | ⬜ |
+| F9.9 | Upload своих шрифтов (Agency) | ⬜ |

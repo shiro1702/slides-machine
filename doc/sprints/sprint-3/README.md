@@ -34,10 +34,11 @@
 - Кнопка «Редактировать» в этом спринте может вести только в waitlist/объяснение; полноценный редактор относится к Sprint 4.
 - Free limits и цены не фиксируются здесь: значения расходятся в business docs и будут решены перед Sprint 5/11.
 - Выбор основного угла (ниша / repurposing / agency B2B) остаётся продуктовым решением roadmap.
+- **Стили / типы (из [styles-themes brainstorm](../../brainstorms/25.07.2026-styles-themes-INDEX.md)):** не расширять каталог layouts вслепую — сначала метрики выбора стилей из Sprint 2. В task 04 заложить паттерны types в промпт. Разделение `layoutId` × Brand Theme — подготовка схемы, без UI кастомных тем (это Sprint 4 / F2.9).
 
 ## Не входит
 
-Mini App editor, ручной drag, brand kit UI, тарифы и платежи.
+Mini App editor, ручной drag, Brand Kit UI / color picker, upload шрифтов, тарифы и платежи, новые chart layouts (перенос в S4).
 
 ## Ретро
 

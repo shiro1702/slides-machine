@@ -7,10 +7,10 @@ AI-студия контента: тема → карусель → рилс. MV
 1. **[project/PROJECT.md](./project/PROJECT.md)** — что строим, стек  
 2. **[project/ARCHITECTURE.md](./project/ARCHITECTURE.md)** — JSON-движок слайдов  
 3. **[dev/DEPLOY.md](./dev/DEPLOY.md)** · **[dev/ENV_SETUP.md](./dev/ENV_SETUP.md)**  
-4. **[sprints/SPRINTS.md](./sprints/SPRINTS.md)** — сейчас **Sprint 0**  
+4. **[sprints/SPRINTS.md](./sprints/SPRINTS.md)** — сейчас **Sprint 2**  
 5. **[project/FEATURES.md](./project/FEATURES.md)** — статусы фич  
 
-Брейншторм разобран: [brainstorms/25.07.2026-INDEX.md](./brainstorms/25.07.2026-INDEX.md).
+Брейнштормы: [brainstorms/25.07.2026-INDEX.md](./brainstorms/25.07.2026-INDEX.md) · [styles-themes INDEX](./brainstorms/25.07.2026-styles-themes-INDEX.md).
 
 ---
 
@@ -29,7 +29,7 @@ doc/
 ├── dev/               # deploy, env, render
 ├── marketing/         # positioning, content, telegram, branding
 ├── business/          # opportunity, models, economics, scaling
-├── product/           # slide-engine, carousels, video-*, reels, prompts
+├── product/           # slide-engine, layout-styles, slide-types, charts, brand-kits, …
 └── brainstorms/       # сырьё + INDEX (не редактировать .md диалогов)
 ```
 
@@ -66,7 +66,7 @@ doc/
 | [dev/ENV_SETUP.md](./dev/ENV_SETUP.md) | Ключи |
 | [dev/RENDER.md](./dev/RENDER.md) | Preview vs server render |
 | [sprints/SPRINTS.md](./sprints/SPRINTS.md) | План 0–12 |
-| [sprints/sprint-0/](./sprints/sprint-0/README.md) | Текущий спринт |
+| [sprints/sprint-2/](./sprints/sprint-2/README.md) | Текущий спринт |
 
 ### Продукт и бизнес
 
@@ -77,12 +77,15 @@ doc/
 | [business/models.md](./business/models.md) | Тарифы, услуги |
 | [business/economics.md](./business/economics.md) | Юнит-экономика |
 | [business/scaling.md](./business/scaling.md) | Триггеры |
-| [product/slide-engine.md](./product/slide-engine.md) | Theme → layout → elements |
+| [product/slide-engine.md](./product/slide-engine.md) | Layout × theme × type |
+| [product/layout-styles.md](./product/layout-styles.md) | Каталог layout-стилей |
+| [product/slide-types.md](./product/slide-types.md) | Типы слайдов + паттерны |
+| [product/charts.md](./product/charts.md) | Инфографика |
 | [product/carousels.md](./product/carousels.md) | PNG MVP |
 | [product/video-carousels.md](./product/video-carousels.md) | Сценовые рилсы |
 | [product/video-ingest.md](./product/video-ingest.md) | Видео-фоны, audio |
 | [product/reels-automation.md](./product/reels-automation.md) | Talking head |
-| [product/brand-kits.md](./product/brand-kits.md) | Темы |
+| [product/brand-kits.md](./product/brand-kits.md) | Brand Theme, шрифты |
 | [product/prompts.md](./product/prompts.md) | AI-промпты |
 | [marketing/positioning.md](./marketing/positioning.md) | Офферы |
 | [marketing/content/](./marketing/content/) | Reels + BIP |
@@ -95,6 +98,8 @@ doc/
 |------|--|
 | [brainstorms/25.07.2026.md](./brainstorms/25.07.2026.md) | Сырой диалог |
 | [brainstorms/25.07.2026-INDEX.md](./brainstorms/25.07.2026-INDEX.md) | Куда вынесено |
+| [brainstorms/25.07.2026-styles-themes.md](./brainstorms/25.07.2026-styles-themes.md) | Стили / типы / Brand Theme |
+| [brainstorms/25.07.2026-styles-themes-INDEX.md](./brainstorms/25.07.2026-styles-themes-INDEX.md) | Куда вынесено |
 
 ---
 
