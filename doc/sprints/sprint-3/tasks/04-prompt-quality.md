@@ -7,6 +7,7 @@
 ## Scope
 
 - Параметры ниши, tone, content goal и template
+- Паттерны последовательности slide types (Ошибки / Инструкция / Мифы / Кейс) — см. [prompts.md](../../../product/prompts.md)
 - Ограничения длины для headline/body/CTA с учётом layouts
 - Prompt/version id в metadata каждой project version
 - Repair отдельно от creative regeneration
@@ -16,6 +17,7 @@
 
 - [ ] Каждое изменение prompt связано с наблюдаемой категорией ошибки
 - [ ] Regression set проверяет schema validity, длины, hook, структуру и CTA
+- [ ] System/user prompt явно задаёт паттерн types (первый = hook, последний = cta)
 - [ ] Prompt version позволяет сравнить first-pass validity и пользовательский outcome
 - [ ] Repair не меняет смысл текста без необходимости и имеет лимит попыток
 - [ ] «Другой вариант» создаёт действительно альтернативную структуру/формулировки
@@ -24,4 +26,5 @@
 ## Связанные документы
 
 - [AI-промпты](../../../product/prompts.md)
+- [Типы слайдов](../../../product/slide-types.md)
 - [Slide rendering engine](../../../product/slide-engine.md)

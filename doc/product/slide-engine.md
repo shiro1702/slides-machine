@@ -1,67 +1,89 @@
 # Slide rendering engine
 
-Источник: brainstorm — «не генератор картинок, а движок слайдов».
+Источник: brainstorm 25.07 + уточнение осей в [styles-themes](../brainstorms/25.07.2026-styles-themes-INDEX.md).
 
 ## Формула
 
 ```
 Карусель = набор слайдов
-Слайд    = layout + content + assets + styles + effects
+Слайд    = slide type + content + assets
+           × layout style (характер вёрстки)
+           × brand theme (цвета, шрифты, лого, handle)
 Рилс     = те же слайды + timing + transitions + audio
 ```
 
+Три независимые оси → комбинаторика без взрыва кода:
+
+```
+Layout Style  ×  Brand Theme  ×  Slide type
+   ~8 стилей      ∞ юзерских     ~14 типов + charts
+```
+
+Каталоги: [layout-styles.md](./layout-styles.md) · [brand-kits.md](./brand-kits.md) · [slide-types.md](./slide-types.md) · [charts.md](./charts.md).
+
 ## Уровни
 
-### 1. Theme / Style (примеры)
+### 1. Layout Style (характер)
 
-Minimal Black Yellow · Clean White Editorial · Gradient Neon · Luxury Beige · Startup Blue · Bold Red Black · Pastel Creator · Brutalist  
+Clean Minimal · Dark Premium · Bold Marketing · Soft Pastel · Editorial · Corporate · Photo Overlay · Neon Tech  
 
-Токены: colors, fonts, radii, shadows, CTA, sticker style, chart style.
+Хранит: decor, radius, textCase, padding/spacing, safe areas.  
+**Не** жёстко цвета клиента — они в Brand Theme.
 
-### 2. Carousel Template (структура)
+### 2. Brand Theme (бренд)
+
+Токены: `background`, `surface`, `text`, `textMuted`, `accent`, `onAccent` + `fontPair` + logo + `@handle`.  
+
+MVP: пресеты. Дальше: picker → из лого → из URL. См. [brand-kits.md](./brand-kits.md).
+
+> **Сейчас в коде** `themeId` / `styles.ts` ещё объединяет layout+цвета+шрифты (3 bundle). Целевое разрезание — без ломки id для тестеров Sprint 2.
+
+### 3. Carousel Template (паттерн структуры)
 
 | Шаблон | Слайды (пример) |
 |--------|-----------------|
-| Expert List | обложка → пункты → чеклист → CTA |
-| Mistakes | 5 ошибок → как исправить → CTA |
-| Problem Solution | проблема → почему → решение → пример → CTA |
-| Myth / Truth | миф → правда → пример → вывод → CTA |
-| Checklist | обложка → чеки → итог → CTA |
-| Case Study | было → сделали → результат → повторить → CTA |
-| Statistics Report | позже |
-| Before After | позже |
+| Expert List / Ошибки | hook → numbered × N → checklist → cta |
+| Mistakes | hook → numbered × N → big_number → checklist → cta |
+| Problem Solution | problem → why → solution → example → cta |
+| Myth / Truth | hook → myth_fact × N → text → cta |
+| Checklist | hook → checklist → summary → cta |
+| Case Study | hook → before_after → steps × 3 → author → cta |
+| Statistics / Charts | позже |
+| Before After | позже как тип; template уже в meta |
 
-**Старт бота:** 3 визуальных стиля — экспертный минимализм / яркий маркетинг / премиум-недвижимость.
+**Старт бота:** 3 визуальных bundle-стиля — экспертный минимализм / яркий маркетинг / премиум-недвижимость.
 
-### 3. Slide layouts (MVP 10–12)
+### 4. Slide types / layouts
 
-**Базовые:** cover_center, text_only, text_big_number, text_with_badge, quote, checklist, cta  
+**MVP (5):** `hook`, `text`, `numbered`, `checklist`, `cta`  
 
-**С картинками:** text_image_right/left, image_background_dark_overlay, image_top_text_bottom, image_bottom_text_top  
+**S3–4 (+):** `quote`, `myth_fact`, `big_number`, `steps` + `progress_bars`, `big_percent`  
 
-**Аналитика (позже):** stat_big_number, chart_bar/line/donut, before_after  
+**S5+:** `before_after`, `question`, `photo`, `comparison`, `author` + `bar_chart`, `timeline`  
 
-Чарты: свои SVG-компоненты (контроль стиля), не тяжёлый recharts на старте.
+В Zod/Remotion сейчас layout ids: `cover_center`, `text_only`, `text_big_number`, `text_with_badge`, `quote`, `checklist`, `cta`, image-*. Семантические `type` мапятся на эти компоненты.
 
-### 4. Elements
+Чарты: свои SVG ([charts.md](./charts.md)), не тяжёлый recharts на старте.
+
+### 5. Elements
 
 Text, Image, Sticker, Shape, Chart, Icon, Logo, Background, Badge, Arrow, ProgressBar  
 
 Каждый: `x, y, width, height, zIndex` (+ rotation, opacity).  
 Стикеры: drag/resize (react-rnd / dnd-kit) — управляемый редактор, не полный Canva.
 
-### 5. Effects (заложить в JSON сразу)
+### 6. Effects (заложить в JSON сразу)
 
 fade, slide, scale, bounce, floating loop, pulse, typewriter, highlight…  
 
-PNG игнорирует; MP4 читает.
+PNG игнорирует; MP4 читает. Charts в рилсе: анимация роста bars/donut.
 
 ## Редактор
 
 **Гибрид:** React/HTML templates + drag для overlay-элементов.  
 Не Canvas-Canva с нуля (сложнее синхронизировать с Remotion).
 
-Mini App v1 (Sprint 4): текст, порядок слайдов, шаблон — **без** полного drag.
+Mini App v1 (Sprint 4): текст, порядок слайдов, стиль/тема — **без** полного drag.
 
 ## Рилс из того же JSON
 
