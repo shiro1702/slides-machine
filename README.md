@@ -2,16 +2,16 @@
 
 AI-студия контента: **тема → карусель → рилс**. MVP-канал — Telegram-бот + Mini App.
 
-Текущий спринт: **Sprint 1** (тема → валидный JSON). Документация: [`doc/`](./doc/README.md).
+Текущий спринт: **Sprint 2** (JSON → PNG → Telegram album). Документация: [`doc/`](./doc/README.md).
 
 ## Stack
 
 - Next.js (App Router) + Tailwind
-- Remotion Player (preview stub)
+- Remotion layouts + server PNG (`renderStill` / layout fallback)
 - Zod project schema
-- Neon Postgres (Drizzle)
+- Neon Postgres (Drizzle) + job worker
 - Vercel Blob
-- Telegram Bot webhook
+- Telegram Bot webhook + media group
 - Vercel AI SDK + Groq (или `LLM_MODE=fixture`)
 
 ## Setup
@@ -37,6 +37,7 @@ cp .env.example .env.local
 | `npm run db:migrate` | Apply migrations |
 | `npm run db:smoke` | Insert user → project → job |
 | `npm run db:flow-smoke` | Flow generation → ready project + queued job |
+| `npm run render:smoke` | Fixtures → PNG + manifest (layout backend) |
 
 ### Telegram webhook
 
@@ -50,7 +51,9 @@ curl "https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/setWebhook" \
 
 Header `X-Telegram-Bot-Api-Secret-Token` проверяется в [`app/api/telegram/webhook`](./app/api/telegram/webhook/route.ts).
 
-Flow: `/start` → «Сделать карусель» / `/new` → ниша → тема → стиль → JSON в Neon + job `render_carousel`.
+Flow: `/start` → `/new` → ниша → тема → стиль → JSON + `render_carousel` → worker PNG → Telegram album.
+
+Worker: `POST /api/jobs/worker` (Bearer `CRON_SECRET`) + Vercel Cron каждую минуту.
 
 ### Blob smoke
 
@@ -60,6 +63,7 @@ curl -X POST "$NEXT_PUBLIC_APP_URL/api/blob/smoke"
 
 ## Docs
 
+- [Sprint 2](./doc/sprints/sprint-2/README.md)
 - [Sprint 1](./doc/sprints/sprint-1/README.md)
 - [Sprint 0](./doc/sprints/sprint-0/README.md)
 - [Architecture](./doc/project/ARCHITECTURE.md)

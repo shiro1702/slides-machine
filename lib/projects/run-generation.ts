@@ -31,6 +31,8 @@ export type RunGenerationParams = {
   correlationId?: string;
   generationRequestId?: string;
   existingProjectId?: string;
+  chatId?: number;
+  progressMessageId?: number;
 };
 
 export type RunGenerationSuccess = {
@@ -114,6 +116,8 @@ export async function runCarouselGeneration(
     templateId: template.id,
     correlationId,
     generationRequestId,
+    chatId: params.chatId,
+    progressMessageId: params.progressMessageId,
   };
 
   logEvent("generation_started", {

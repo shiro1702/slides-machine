@@ -24,8 +24,8 @@ export const styles: StyleMeta[] = [
         surface: "#1A1A1A",
       },
       fonts: {
-        display: "Georgia, serif",
-        body: "Helvetica Neue, sans-serif",
+        display: '"Source Serif 4", "Noto Serif", Georgia, serif',
+        body: '"Source Sans 3", "Noto Sans", "Helvetica Neue", sans-serif',
       },
       radii: { sm: 4, md: 8, lg: 16 },
       cta: { background: "#F5C518", foreground: "#0B0B0B" },
@@ -45,8 +45,8 @@ export const styles: StyleMeta[] = [
         surface: "#FFFFFF",
       },
       fonts: {
-        display: "Impact, sans-serif",
-        body: "Arial, sans-serif",
+        display: '"Montserrat", "Noto Sans", "Arial Black", sans-serif',
+        body: '"Open Sans", "Noto Sans", Arial, sans-serif',
       },
       radii: { sm: 6, md: 12, lg: 24 },
       cta: { background: "#FF3D6E", foreground: "#FFFFFF" },
@@ -66,8 +66,8 @@ export const styles: StyleMeta[] = [
         surface: "#FAF7F2",
       },
       fonts: {
-        display: "Palatino, serif",
-        body: "Optima, sans-serif",
+        display: '"Cormorant Garamond", "Noto Serif", Palatino, serif',
+        body: '"Lato", "Noto Sans", Optima, sans-serif',
       },
       radii: { sm: 2, md: 6, lg: 12 },
       cta: { background: "#2F5D50", foreground: "#F3EDE4" },

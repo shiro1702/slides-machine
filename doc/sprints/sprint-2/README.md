@@ -1,49 +1,56 @@
-# Sprint 2 — Remotion PNG + media group (путь B)
+# Sprint 2 — PNG + media group
 
-**Статус:** запланирован · **Тест:** закрытый №1, 10–20 пользователей  
-**Рендер:** серверный **Remotion `renderStill`** → Blob → TG album · [RENDER.md](../../dev/RENDER.md)
+**Статус:** код готов · закрытый тест после deploy · **Тест:** закрытый №1, 10–20 пользователей
 
 ## Цель
 
-Замкнуть цикл: тема → JSON → **одинаковые** PNG → Telegram album. Проверить спрос на результат.
+Замкнуть первый пользовательский цикл: тема → JSON → PNG → Telegram album и проверить, нужен ли людям итоговый результат.
 
-**Roadmap:** [этап 1](../../roadmap/ROADMAP.md#1--png-в-telegram) · **Фичи:** F1.3, F1.4, F1.8, измерение F1.7
+**Roadmap:** [этап 1 — PNG в Telegram](../../roadmap/ROADMAP.md#1--png-в-telegram) · **Фичи:** F1.3, F1.4, F1.8 и измерение F1.7
 
 ## Зависимости
 
-- Sprint 1: валидный project JSON + queued `render_carousel`.
-- Blob; meta layouts = Zod.
+- Sprint 1 стабильно создаёт валидный project JSON и queued `render_carousel` job.
+- Blob доступен; meta шаблонов/layouts согласована с Zod-схемой.
 
 ## Чеклист
 
-- [ ] Templates/layouts = **чистый React** (props-only; без `next/image`, `next/font`, fetch) — общий код для будущего html-to-image ([task 01](./tasks/01-slide-templates.md))
-- [ ] F1.3 — Remotion `renderStill` (или совместимый Remotion path) воспроизводимо даёт PNG ([task 02](./tasks/02-png-render.md))
-- [ ] F1.8 — job lifecycle → Blob ([task 03](./tasks/03-render-queue-storage.md))
-- [ ] F1.4 — `sendMediaGroup` в порядке ([task 04](./tasks/04-telegram-media-group.md))
-- [ ] Закрытый тест ([task 05](./tasks/05-closed-test.md))
-
-## Архитектурные правила спринта
-
-- **Strategy B:** не вводим Playwright/Satori как второй движок вёрстки.  
-- Шрифты — из репо/пакета, одинаково для Remotion.  
-- Логика «что рендерить» в Core/shared; TG handler только отправляет.
+- [x] Первые templates/layouts реализованы как React/Remotion-compatible компоненты ([task 01](./tasks/01-slide-templates.md))
+- [x] F1.3 — серверный PNG-render воспроизводимо создаёт все слайды ([task 02](./tasks/02-png-render.md))
+- [x] F1.8 — job проходит queue lifecycle и сохраняет outputs в Blob ([task 03](./tasks/03-render-queue-storage.md))
+- [x] F1.4 — Telegram получает album в правильном порядке ([task 04](./tasks/04-telegram-media-group.md))
+- [ ] Закрытый тест измеряет время до usable carousel и сигнал спроса ([task 05](./tasks/05-closed-test.md)) — [скрипт](./test-script.md)
 
 ## Критерии выхода
 
-- [ ] Album без ручных действий команды
-- [ ] Один JSON → визуально те же PNG
-- [ ] Ошибка job не блокирует очередь; retry не дублирует album
-- [ ] p50 time-to-usable и доля ≤3 мин измерены
-- [ ] Feedback: публикуют? что переписывают?
+- [x] Пользователь получает готовый album без ручной операции команды *(в коде; live после env)*
+- [x] Одинаковый project JSON даёт визуально одинаковые PNG
+- [x] Ошибка одного job не блокирует следующие; retry не дублирует album
+- [ ] p50 time to first result и доля результата ≤3 минут измеряются *(после закрытого теста)*
+- [ ] Собраны ответы: понятен ли бот, можно ли публиковать, что переписывают, хотят ли ещё
+- [ ] Зафиксировано распределение выбора стилей (3 bundle) — вход в S3 пресеты / S4 Soft Pastel|Photo Overlay
 
-## Gate
+## MVP визуала (брейншторм · итерация MVP)
 
-**Нужен ли результат?** Публикация + возврат за второй каруселью.
+| Ось | Объём |
+|-----|--------|
+| Styles | 3 bundle (= layout + цвета + шрифты) |
+| Types | hook / text / numbered / checklist / cta |
+| Brand Theme | нет отдельного слоя |
+| Charts | нет |
+
+Gap к целевому MVP брейншторма (6–8 цветовых пресетов) закрывается в **Sprint 3** task 06.
+
+## Gate этапа
+
+**Вопрос:** нужен ли результат? Какие стили берут?
+
+Цель — usable carousel ≤2–3 минут. Сильный сигнал: публикация без существенных переделок и добровольный возврат за второй каруселью. Решение о продолжении фиксируется в ретро, не подменяется одной vanity-метрикой.
 
 ## Не входит
 
-Клиентский html-to-image (S4), ZIP UI (S3), Mini App editor, MP4, второй мессенджер, Playwright.
+Кнопки вариантов/стиля, ZIP, Mini App, MP4, Brand Kit picker, charts, масштабирование на публичный трафик.
 
 ## Ретро
 
-_(метрики · continue/change/stop · долг packages/slides)_
+_(в конце: метрики, обратная связь и решение continue/change/stop)_

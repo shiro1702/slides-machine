@@ -7,10 +7,10 @@ AI-студия контента: тема → карусель → рилс. MV
 1. **[project/PROJECT.md](./project/PROJECT.md)** — что строим, стек  
 2. **[project/ARCHITECTURE.md](./project/ARCHITECTURE.md)** — JSON-движок слайдов  
 3. **[dev/DEPLOY.md](./dev/DEPLOY.md)** · **[dev/ENV_SETUP.md](./dev/ENV_SETUP.md)**  
-4. **[sprints/SPRINTS.md](./sprints/SPRINTS.md)** — сейчас **Sprint 1→2**  
+4. **[sprints/SPRINTS.md](./sprints/SPRINTS.md)** — сейчас **Sprint 2**  
 5. **[project/FEATURES.md](./project/FEATURES.md)** — статусы фич  
 
-Брейнштормы: [25.07.2026-INDEX](./brainstorms/25.07.2026-INDEX.md) · [hybrid-render INDEX](./brainstorms/25.07.2026-hybrid-render-INDEX.md).
+Брейнштормы: [25.07.2026-INDEX](./brainstorms/25.07.2026-INDEX.md) · [styles-themes](./brainstorms/25.07.2026-styles-themes-INDEX.md) · [hybrid-render](./brainstorms/25.07.2026-hybrid-render-INDEX.md).
 
 ---
 
@@ -29,7 +29,7 @@ doc/
 ├── dev/               # deploy, env, render
 ├── marketing/         # positioning, content, telegram, branding
 ├── business/          # opportunity, models, economics, scaling
-├── product/           # slide-engine, carousels, video-*, reels, prompts
+├── product/           # slide-engine, layout-styles, slide-types, charts, brand-kits, …
 └── brainstorms/       # сырьё + INDEX (не редактировать .md диалогов)
 ```
 
@@ -65,8 +65,12 @@ doc/
 | [dev/DEPLOY.md](./dev/DEPLOY.md) | Vercel/Neon/worker |
 | [dev/ENV_SETUP.md](./dev/ENV_SETUP.md) | Ключи |
 | [dev/RENDER.md](./dev/RENDER.md) | Preview vs server render |
-| [sprints/SPRINTS.md](./sprints/SPRINTS.md) | План 0–12 |
-| [sprints/sprint-0/](./sprints/sprint-0/README.md) | Текущий спринт |
+| [sprints/SPRINTS.md](./sprints/SPRINTS.md) | План 0–12 + карта итераций styles/themes |
+| [sprints/sprint-2/](./sprints/sprint-2/README.md) | Текущий спринт (MVP визуала) |
+| [sprints/sprint-3/](./sprints/sprint-3/README.md) | Варианты + схема layout×theme |
+| [sprints/sprint-4/](./sprints/sprint-4/README.md) | Mini App + итерация 2 |
+| [sprints/sprint-5/](./sprints/sprint-5/README.md) | Multi-theme + лимиты |
+| [sprints/sprint-6/](./sprints/sprint-6/README.md) | MP4 + лого/charts v2 |
 
 ### Продукт и бизнес
 
@@ -77,13 +81,16 @@ doc/
 | [business/models.md](./business/models.md) | Тарифы, услуги |
 | [business/economics.md](./business/economics.md) | Юнит-экономика |
 | [business/scaling.md](./business/scaling.md) | Триггеры |
-| [product/slide-engine.md](./product/slide-engine.md) | Theme → layout → elements |
+| [product/slide-engine.md](./product/slide-engine.md) | Layout × theme × type |
+| [product/layout-styles.md](./product/layout-styles.md) | Каталог layout-стилей |
+| [product/slide-types.md](./product/slide-types.md) | Типы слайдов + паттерны |
+| [product/charts.md](./product/charts.md) | Инфографика |
 | [product/editor-flow.md](./product/editor-flow.md) | Бот → редактор → ZIP / альбом |
 | [product/carousels.md](./product/carousels.md) | PNG MVP |
 | [product/video-carousels.md](./product/video-carousels.md) | Сценовые рилсы |
 | [product/video-ingest.md](./product/video-ingest.md) | Видео-фоны, audio |
 | [product/reels-automation.md](./product/reels-automation.md) | Talking head |
-| [product/brand-kits.md](./product/brand-kits.md) | Темы |
+| [product/brand-kits.md](./product/brand-kits.md) | Brand Theme, шрифты |
 | [product/prompts.md](./product/prompts.md) | AI-промпты |
 | [marketing/positioning.md](./marketing/positioning.md) | Офферы |
 | [marketing/content/](./marketing/content/) | Reels + BIP |
@@ -96,6 +103,8 @@ doc/
 |------|--|
 | [brainstorms/25.07.2026.md](./brainstorms/25.07.2026.md) | Сырой диалог |
 | [brainstorms/25.07.2026-INDEX.md](./brainstorms/25.07.2026-INDEX.md) | Куда вынесено |
+| [brainstorms/25.07.2026-styles-themes.md](./brainstorms/25.07.2026-styles-themes.md) | Стили / типы / Brand Theme |
+| [brainstorms/25.07.2026-styles-themes-INDEX.md](./brainstorms/25.07.2026-styles-themes-INDEX.md) | Куда вынесено |
 | [brainstorms/25.07.2026-hybrid-render.md](./brainstorms/25.07.2026-hybrid-render.md) | Гибридный рендер / каналы |
 | [brainstorms/25.07.2026-hybrid-render-INDEX.md](./brainstorms/25.07.2026-hybrid-render-INDEX.md) | Куда вынесено |
 

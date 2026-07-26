@@ -11,7 +11,7 @@ LLM → structured carousel.json
         ↓
 Zod validation
         ↓
-Theme + Template + Layouts
+Layout Style × Brand Theme × Slide types
         ↓
 Render PNG (сервер)
         ↓
@@ -55,4 +55,4 @@ Live Photos на старте не поддерживать. HEIC: конвер�
 
 ## Шаблоны и layouts
 
-[slide-engine.md](./slide-engine.md)
+[slide-engine.md](./slide-engine.md) · [layout-styles.md](./layout-styles.md) · [slide-types.md](./slide-types.md) · [brand-kits.md](./brand-kits.md)

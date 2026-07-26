@@ -17,7 +17,8 @@
 - [ ] Участники первого теста приглашены создать 3–5 реальных проектов
 - [ ] Отдельно посчитаны first result, result action, second project и самостоятельный return
 - [ ] Причины переделок сгруппированы по content, style, layout, UX и reliability
-- [ ] Ретро отвечает на gate «нужен ли результат?» и фиксирует вход в Sprint 4
+- [ ] Ретро отвечает на gate «нужен ли результат?», фиксирует распределение стилей и backlog Sprint 4 (types / Soft Pastel|Photo Overlay / charts)
+- [ ] Подтверждено, что S3 schema `layout×theme` + пресеты готовы или явно в debt перед S4
 
 ## Решение по gate
 
