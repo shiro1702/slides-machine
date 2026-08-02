@@ -1,54 +1,49 @@
-# Sprint 1 — бот: тема → структура JSON
+# Sprint 1 — shared slides + веб-редактор + client ZIP *(путь A)*
 
-**Статус:** код готов · live-тест после env · **Тест:** внутренний, основатель + 2–3 SMM
+**Статус:** запланирован · **Тест:** внутренний smoke (desktop + iPhone/Safari)  
+**Источник:** [hybrid-render brainstorm](../../brainstorms/25.07.2026-hybrid-render-INDEX.md) · [RENDER.md](../../dev/RENDER.md) · [editor-flow.md](../../product/editor-flow.md)
 
 ## Цель
 
-Провести пользователя по короткому Telegram-flow и получить валидный, сохранённый project JSON, готовый к рендеру в следующем спринте.
+Один набор чистых React-слайдов + signed веб-редактор `/e/{id}` + клиентский ZIP через html-to-image — без серверного Remotion и без Brand Theme UI.
 
-**Roadmap:** [этап 1 — PNG в Telegram](../../roadmap/ROADMAP.md#1--png-в-telegram) · **Фичи:** F1.1, F1.2 и основа для F1.7/F1.8
+**Roadmap:** [этап 2 — редактор / путь A](../../roadmap/ROADMAP.md#2--mini-app--веб-редактор) · **Фичи:** часть F2.1 (signed link), F2.2 (текст/порядок), F2.4a
 
 ## Зависимости
 
-- Sprint 0 завершён: Zod-схема, meta, Neon и Telegram webhook доступны.
-- LLM: Groq (`GROQ_API_KEY`) или `LLM_MODE=fixture` без ключа.
+- Фундамент бот→JSON готов: [sprint-1-bot-json](../sprint-1-bot-json/README.md) (F1.1–F1.2).
+- Layouts из Sprint 2 (`remotion/layouts`) — дисциплина pure React; выделить/зафиксировать shared API.
+- Neon project JSON читается по `users.id`.
+
+> **Хронология:** код Sprint 2 (путь B album) уже есть. По hybrid-плану путь A — Sprint 1; реализуем его следующим, не дублируя Remotion.
 
 ## Чеклист
 
-- [x] F1.1 — flow `/start`/`/new` → ниша → тема → стиль ([task 01](./tasks/01-telegram-flow.md))
-- [x] F1.2 — LLM возвращает structured carousel JSON, прошедший Zod ([task 02](./tasks/02-llm-json.md))
-- [x] User и draft project сохраняются в Neon; создаётся job на следующий этап ([task 03](./tasks/03-project-persistence.md))
-- [x] Ошибки, latency и шаги flow наблюдаемы без утечки пользовательского текста/секретов ([task 04](./tasks/04-errors-telemetry.md))
+- [ ] Shared slides: pure React, Remotion-compatible, шрифты файлами ([task 01](./tasks/01-shared-slides.md))
+- [ ] Signed editor `/e/{projectId}?t=` + кнопка из бота ([task 02](./tasks/02-signed-editor.md))
+- [ ] Preview + правки текста/порядка + Zod save ([task 03](./tasks/03-preview-edit.md))
+- [ ] Client ZIP: html-to-image + JSZip, событие `exported` ([task 04](./tasks/04-client-zip.md))
+- [ ] Smoke: fixture → ZIP на desktop и iPhone/Safari ([task 05](./tasks/05-smoke.md))
 
 ## Критерии выхода
 
-- [x] Новый пользователь проходит flow без ручной правки состояния *(код + unit/fixture; live TG — после env)*
-- [x] Для каждой из 3 ниш получен минимум один валидный fixture-like project JSON (`npm run generate:smoke`)
-- [ ] Проект связан с Telegram user и повторно читается из Neon *(нужен `DATABASE_URL` + `npm run db:flow-smoke`)*
-- [x] Невалидный ответ LLM автоматически исправляется ограниченное число раз или завершается понятной ошибкой
-- [ ] Внутренний тест с 2–3 SMM выявил блокеры до PNG-render *(нужны секреты + deploy)*
+- [ ] Один и тот же project JSON даёт визуально согласованный preview и client PNG
+- [ ] Владелец открывает `/e/{id}` по signed JWT; чужой/просроченный токен отклоняется
+- [ ] Правки текста/порядка сохраняются через Zod; битый JSON не пишется
+- [ ] «Скачать ZIP» собирает все слайды последовательно после `document.fonts.ready`
+- [ ] Smoke на iPhone/Safari: ZIP скачивается без tainted canvas / blank frames
+- [ ] Telemetry: `exported` отдельно от server `delivered` (Sprint 2)
 
 ## Метрики
 
-- Доля flow, дошедших до генерации JSON
-- Доля валидных ответов с первой попытки и после retry
-- p50/p95 времени LLM-генерации
-
-Целевые продуктовые метрики этапа измеряются после появления PNG в Sprint 2.
+- Доля проектов с открытием editor после JSON
+- Доля `exported` (client ZIP) vs отказ/ошибка
+- p50 времени client ZIP на 5–7 слайдах (desktop / iOS)
 
 ## Не входит
 
-PNG-render, media group, ZIP, Mini App, платежи и сложный conversational AI.
-
-## Live env (ещё нужно)
-
-| Секрет | Зачем |
-|--------|--------|
-| `DATABASE_URL` | flow state, project, job |
-| `TELEGRAM_BOT_TOKEN` + `TELEGRAM_WEBHOOK_SECRET` | бот |
-| Публичный URL / tunnel | webhook |
-| `GROQ_API_KEY` | реальная LLM (иначе fixture) |
+Remotion worker / album (Sprint 2), Playwright, Mini App `initData` (Sprint 4), watermark, upload фото, Brand Theme picker, Soft Pastel / charts, MP4, второй мессенджер.
 
 ## Ретро
 
-_(в конце)_
+_(шрифты/CORS/iOS · хватает ли signed link без Mini App · вход в S4 Brand Theme)_
