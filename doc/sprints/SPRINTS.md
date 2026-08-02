@@ -123,6 +123,7 @@ Gate: нужен ли результат? **Какие стили выбираю
 - История проектов, free limits, ref links, админка  
 - Несколько Brand Theme на юзера («под клиентов») + лимиты Free 1 / Pro 5  
 - Watermark на client ZIP (Free)  
+- Лимиты font pairs по тарифу  
 - Layout: Editorial / Corporate / Neon — **только если спрос из S2–4**  
 - Types: before_after, question, author (+ comparison, photo по спросу)  
 
