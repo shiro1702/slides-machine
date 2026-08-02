@@ -102,10 +102,14 @@ Webhook мессенджера не ждёт рендер. JSON в Neon — ис
 
 | Что | Спринт |
 |-----|--------|
-| Shared Remotion-compatible layouts + путь B (album) | **2** |
-| ZIP из уже готовых PNG (бот) | **3** |
-| Редактор + путь A (html-to-image) + «в Telegram» → B | **4** |
+| Shared pure React slides + signed editor + путь A (html-to-image ZIP) | **1** |
+| Shared layouts + путь B (Remotion album) | **2** |
+| ZIP из уже готовых PNG (бот, Blob) | **3** |
+| Brand Theme UI + Mini App initData + types/charts; «в Telegram» → B из editor | **4** |
 | Watermark Free / Pro server | **5 / 11** |
 | Путь C MP4 | **6** |
+
+> Фундамент бот→JSON: [sprint-1-bot-json](../sprints/sprint-1-bot-json/README.md).  
+> Маппинг = скорректированный hybrid-план (S1 = editor+A, S2 = Remotion B).
 
 См. [editor-flow.md](../product/editor-flow.md) · [DEPLOY.md](./DEPLOY.md) · [SPRINTS.md](../sprints/SPRINTS.md).
