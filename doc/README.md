@@ -10,7 +10,7 @@ AI-студия контента: тема → карусель → рилс. MV
 4. **[sprints/SPRINTS.md](./sprints/SPRINTS.md)** — сейчас **Sprint 2**  
 5. **[project/FEATURES.md](./project/FEATURES.md)** — статусы фич  
 
-Брейнштормы: [25.07.2026-INDEX](./brainstorms/25.07.2026-INDEX.md) · [styles-themes](./brainstorms/25.07.2026-styles-themes-INDEX.md) · [hybrid-render](./brainstorms/25.07.2026-hybrid-render-INDEX.md).
+Брейнштормы: [25.07.2026-INDEX](./brainstorms/25.07.2026-INDEX.md) · [styles-themes](./brainstorms/25.07.2026-styles-themes-INDEX.md) · [hybrid-render](./brainstorms/25.07.2026-hybrid-render-INDEX.md) · [02.08.2026-INDEX](./brainstorms/02.08.2026-INDEX.md).
 
 ---
 
@@ -82,8 +82,9 @@ doc/
 | [business/economics.md](./business/economics.md) | Юнит-экономика |
 | [business/scaling.md](./business/scaling.md) | Триггеры |
 | [product/slide-engine.md](./product/slide-engine.md) | Layout × theme × type |
+| [product/atoms.md](./product/atoms.md) | Tokens → atoms → SlideFrame |
 | [product/layout-styles.md](./product/layout-styles.md) | Каталог layout-стилей |
-| [product/slide-types.md](./product/slide-types.md) | Типы слайдов + паттерны |
+| [product/slide-types.md](./product/slide-types.md) | Типы слайдов + варианты A/B/C |
 | [product/charts.md](./product/charts.md) | Инфографика |
 | [product/editor-flow.md](./product/editor-flow.md) | Бот → редактор → ZIP / альбом |
 | [product/carousels.md](./product/carousels.md) | PNG MVP |
@@ -107,6 +108,10 @@ doc/
 | [brainstorms/25.07.2026-styles-themes-INDEX.md](./brainstorms/25.07.2026-styles-themes-INDEX.md) | Куда вынесено |
 | [brainstorms/25.07.2026-hybrid-render.md](./brainstorms/25.07.2026-hybrid-render.md) | Гибридный рендер / каналы |
 | [brainstorms/25.07.2026-hybrid-render-INDEX.md](./brainstorms/25.07.2026-hybrid-render-INDEX.md) | Куда вынесено |
+| [brainstorms/02.08.2026.md](./brainstorms/02.08.2026.md) | Сырой дамп (продолж. 25–26.07) |
+| [brainstorms/02.08.2026-INDEX.md](./brainstorms/02.08.2026-INDEX.md) | Атомы, варианты Clean Minimal |
+| [brainstorms/02.08.2026-clean-minimal-variants.md](./brainstorms/02.08.2026-clean-minimal-variants.md) | ASCII-макеты типов × 3 |
+| [brainstorms/02.08.2026-atoms.md](./brainstorms/02.08.2026-atoms.md) | Дизайн-система атомов |
 
 ---
 

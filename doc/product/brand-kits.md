@@ -1,6 +1,6 @@
 # Brand kits и Brand Theme
 
-Источник: brainstorm 25.07 + [styles-themes 25.07](../brainstorms/25.07.2026-styles-themes-INDEX.md).
+Источник: brainstorm 25.07 + [styles-themes 25.07](../brainstorms/25.07.2026-styles-themes-INDEX.md) + трёхуровневый JSON из [02.08 INDEX](../brainstorms/02.08.2026-INDEX.md).
 
 **Brand Theme** — killer feature для SMM и агентств (5–10 клиентов → 5–10 тем). Основа дорогого тарифа.
 
@@ -34,6 +34,41 @@
 ```
 
 В схеме данных кастомные токены закладываем **сразу**; в UI MVP — только пресеты. Тогда Agency Brand Kit включается без миграций.
+
+## Трёхуровневый JSON проекта
+
+Автор / хэндл / аватар — не данные слайда, а данные юзера. AI генерит **только** `slides[]`.
+
+```json
+{
+  "brand": {
+    "handle": "@realtor.anna",
+    "name": "Анна Смирнова",
+    "role": "риелтор, 12 лет",
+    "avatarUrl": "blob://...",
+    "showAvatar": true
+  },
+  "settings": {
+    "style": "clean_minimal",
+    "theme": "ivory",
+    "showCounter": true,
+    "showAuthor": true,
+    "label": "НЕДВИЖИМОСТЬ"
+  },
+  "slides": [
+    { "type": "hook", "variant": "A", "data": { "title": "..." } },
+    { "type": "numbered", "variant": "A", "data": { "number": 1, "title": "...", "text": "..." } }
+  ]
+}
+```
+
+| Уровень | Что | Эффект |
+|---------|-----|--------|
+| `brand` | юзер, один раз | все будущие карусели; основа Pro Brand Kit |
+| `settings` | проект | тумблеры counter/author; общий лейбл рубрики |
+| `slides` | контент | AI и правки текста; `SlideCounter` считается из index/total |
+
+Сборка UI: [atoms.md](./atoms.md) (`AuthorBadge`, `SlideFrame`).
 
 ## Сейчас (Sprint 0–2)
 

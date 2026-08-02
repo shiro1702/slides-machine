@@ -4,14 +4,15 @@
 
 | Файл | Назначение |
 |------|------------|
-| [slide-engine.md](./slide-engine.md) | Три оси: layout × theme × type → elements → effects |
-| [layout-styles.md](./layout-styles.md) | Каталог layout-стилей (Minimal, Bold, …) |
-| [slide-types.md](./slide-types.md) | Типы слайдов + паттерны каруселей |
+| [slide-engine.md](./slide-engine.md) | Три оси: layout × theme × type → atoms → effects |
+| [atoms.md](./atoms.md) | Tokens → atoms → templates, SlideFrame |
+| [layout-styles.md](./layout-styles.md) | Каталог layout-стилей + ДНК clean_minimal |
+| [slide-types.md](./slide-types.md) | Типы слайдов + варианты A/B/C + паттерны |
 | [charts.md](./charts.md) | Инфографика: bars, donut, timeline… |
 | [editor-flow.md](./editor-flow.md) | Бот → веб → ZIP / альбом (гибридный экспорт) |
 | [carousels.md](./carousels.md) | Статичные PNG — ядро MVP |
 | [video-carousels.md](./video-carousels.md) | Сценовые рилсы из тех же слайдов |
 | [video-ingest.md](./video-ingest.md) | Видео-фоны, ffprobe, transitions, audio |
 | [reels-automation.md](./reels-automation.md) | Talking head / edit.json (после MVP) |
-| [brand-kits.md](./brand-kits.md) | Brand Theme, шрифты, лимиты тарифов |
+| [brand-kits.md](./brand-kits.md) | Brand Theme, трёхуровневый JSON, шрифты |
 | [prompts.md](./prompts.md) | Черновики AI-промптов |

@@ -103,3 +103,4 @@
 | F9.7 | Drag stickers full editor | ⬜ |
 | F9.8 | Agency / teams | ⬜ |
 | F9.9 | Upload своих шрифтов (Agency, после S11) | ⬜ |
+| F9.10 | Атомы + SlideFrame (tokens→atoms→templates); 2-й стиль как проверка | ⬜ |

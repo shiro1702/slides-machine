@@ -53,7 +53,7 @@ Header `X-Telegram-Bot-Api-Secret-Token` проверяется в [`app/api/tel
 
 Flow: `/start` → `/new` → ниша → тема → стиль → JSON + `render_carousel` → worker PNG → Telegram album.
 
-Worker: `POST /api/jobs/worker` (Bearer `CRON_SECRET`) + Vercel Cron каждую минуту.
+Worker: `POST /api/jobs/worker` (Bearer `CRON_SECRET`) + Vercel Cron раз в сутки (Hobby; на Pro можно чаще).
 
 ### Blob smoke
 

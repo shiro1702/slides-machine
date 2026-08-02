@@ -1,10 +1,10 @@
 # Типы слайдов (slide types)
 
-Источник: [brainstorm 25.07.2026-styles-themes](../brainstorms/25.07.2026-styles-themes-INDEX.md).
+Источник: [brainstorm 25.07.2026-styles-themes](../brainstorms/25.07.2026-styles-themes-INDEX.md) · варианты раскладки: [02.08.2026-INDEX](../brainstorms/02.08.2026-INDEX.md).
 
 **Slide type** = ЧТО на слайде (структура контента). Независим от [layout-стиля](./layout-styles.md) и [Brand Theme](./brand-kits.md).
 
-В коде Sprint 0–2 роль близка к `layout` id (`cover_center`, `text_only`, …). Целевая модель: семантический `type` → layout-компонент внутри выбранного layout-стиля.
+В коде Sprint 0–2 роль близка к `layout` id (`cover_center`, `text_only`, …). Целевая модель: семантический `type` + **variant** (A/B/C раскладка) → шаблон, собранный из [атомов](./atoms.md).
 
 ## Обязательные (MVP / Sprint 1–2)
 
@@ -57,6 +57,24 @@
 }
 ```
 
+## Layout-варианты (A/B/C) внутри типа
+
+У типа — до **трёх раскладок контента**, не три стиля. Стиль меняет только токены/атомы. Референс ASCII в `clean_minimal`: [02.08.2026-clean-minimal-variants.md](../brainstorms/02.08.2026-clean-minimal-variants.md).
+
+| type | A | B | C | Статус спеки |
+|------|---|---|---|--------------|
+| `hook` | Левая ось | Центр + капсула | Подчёркнутое слово | ✓ |
+| `text` (в диалоге INTRO) | Вертикальная ось | Номер-призрак | Карточка | ✓ |
+| `numbered` | Цифра-призрак | Точка-номер | Номер сбоку | ✓ |
+| `checklist` | Квадратные чекбоксы | Строки с разделителями | Карточки | ✓ |
+| `myth_fact` | Верх/низ | Две карточки | Факт-герой | ✓ |
+| `quote` | Кавычки | Между линиями | Левая ось | ✓ |
+| `big_number` | Гигант | Кольцо (donut) | Цифра + ось сбоку | ✓ |
+| `progress_bars` | Тонкие линии | Широкие бары *(обрыв)* | — | частично |
+| `steps`, `cta`, `before_after`, `question`, `photo`, `comparison`, `author` | — | — | — | не расписаны |
+
+MVP достаточно варианта **A** на тип; B/C — разнообразие без новых типов.
+
 ## Паттерны структур для LLM
 
 | Паттерн | Последовательность |
@@ -68,4 +86,4 @@
 
 Связь с carousel templates (`expert_list`, `mistakes`, …) в `lib/meta/templates.ts`: template = именованный паттерн ролей; slide type = атомарный блок внутри паттерна.
 
-Промпты: [prompts.md](./prompts.md).
+Промпты: [prompts.md](./prompts.md). Атомы: [atoms.md](./atoms.md).

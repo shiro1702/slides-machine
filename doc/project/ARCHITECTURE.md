@@ -77,12 +77,12 @@ apps/
   worker/       # Remotion, FFmpeg, transcribe
 packages/
   schemas/      # Zod: project, carousel, reel, brand
-  templates/    # React slide + reel compositions
+  slides/       # tokens → atoms → SlideFrame → templates (см. product/atoms.md)
   ai/           # prompts
   brand/        # default themes
 ```
 
-На Sprint 0 достаточно одного Next.js app; packages выделить, когда появятся worker и повторное использование.
+На Sprint 0–2 достаточно одного Next.js app (`remotion/layouts`); packages выделить, когда появятся worker-reuse и второй layout-стиль как проверка атомов.
 
 ## Пайплайны
 
@@ -124,7 +124,7 @@ script.md → edit.json → локальный агент / cloud worker → Rem
 
 - **Каноническая JSON-схема (Zod):** [`lib/schemas`](../../lib/schemas/) — `project`, scenes, elements, format→размеры, timing/animation/audio
 - [../product/slide-engine.md](../product/slide-engine.md)
-- [../product/layout-styles.md](../product/layout-styles.md) · [../product/slide-types.md](../product/slide-types.md) · [../product/brand-kits.md](../product/brand-kits.md)
+- [../product/atoms.md](../product/atoms.md) · [../product/layout-styles.md](../product/layout-styles.md) · [../product/slide-types.md](../product/slide-types.md) · [../product/brand-kits.md](../product/brand-kits.md)
 - [../product/editor-flow.md](../product/editor-flow.md)
 - [../dev/DEPLOY.md](../dev/DEPLOY.md)
 - [../dev/RENDER.md](../dev/RENDER.md)

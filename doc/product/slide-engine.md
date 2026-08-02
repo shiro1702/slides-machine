@@ -1,13 +1,13 @@
 # Slide rendering engine
 
-Источник: brainstorm 25.07 + уточнение осей в [styles-themes](../brainstorms/25.07.2026-styles-themes-INDEX.md).
+Источник: brainstorm 25.07 + уточнение осей в [styles-themes](../brainstorms/25.07.2026-styles-themes-INDEX.md) + атомы/варианты в [02.08 INDEX](../brainstorms/02.08.2026-INDEX.md).
 
 ## Формула
 
 ```
 Карусель = набор слайдов
-Слайд    = slide type + content + assets
-           × layout style (характер вёрстки)
+Слайд    = slide type + variant + content + assets
+           × layout style (характер вёрстки + atom variants + chrome)
            × brand theme (цвета, шрифты, лого, handle)
 Рилс     = те же слайды + timing + transitions + audio
 ```
@@ -15,11 +15,13 @@
 Три независимые оси → комбинаторика без взрыва кода:
 
 ```
-Layout Style  ×  Brand Theme  ×  Slide type
+Layout Style  ×  Brand Theme  ×  Slide type (+ variant A/B/C)
    ~8 стилей      ∞ юзерских     ~14 типов + charts
 ```
 
-Каталоги: [layout-styles.md](./layout-styles.md) · [brand-kits.md](./brand-kits.md) · [slide-types.md](./slide-types.md) · [charts.md](./charts.md).
+Внутри вёрстки — ещё три слоя реализации: **tokens → atoms → templates** ([atoms.md](./atoms.md)).
+
+Каталоги: [layout-styles.md](./layout-styles.md) · [brand-kits.md](./brand-kits.md) · [slide-types.md](./slide-types.md) · [charts.md](./charts.md) · [atoms.md](./atoms.md).
 
 ## Уровни
 
@@ -65,11 +67,13 @@ MVP: пресеты. Дальше: picker → из лого → из URL. См. 
 
 Чарты: свои SVG ([charts.md](./charts.md)), не тяжёлый recharts на старте.
 
-### 5. Elements
+### 5. Elements → атомы + overlays
 
-Text, Image, Sticker, Shape, Chart, Icon, Logo, Background, Badge, Arrow, ProgressBar  
+Базовая служебка слайда — **атомы** (`SlideCounter`, `AuthorBadge`, `Label`, …) внутри `SlideFrame`. См. [atoms.md](./atoms.md).
 
-Каждый: `x, y, width, height, zIndex` (+ rotation, opacity).  
+Опциональные overlays редактора: Image, Sticker, Shape, Chart, Icon, Logo, Badge, Arrow…  
+
+Каждый overlay: `x, y, width, height, zIndex` (+ rotation, opacity).  
 Стикеры: drag/resize (react-rnd / dnd-kit) — управляемый редактор, не полный Canva.
 
 ### 6. Effects (заложить в JSON сразу)
